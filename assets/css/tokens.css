@@ -1,0 +1,128 @@
+/* Doležal Design — design tokeny
+   Systém „Kino s tichem“ (rozhodnuto 2. 10. 2026, popis v DESIGN.md):
+   tmavý úvod jako filmový záběr, pod ním bílé a tiché tělo, tmavá patička.
+   Černobílé plochy, pastelová modř v písmu (od 2. 10. 2026); od 8. 10. 2026 na úvodní
+   stránce i jako plocha listu (sky, deep), viz níž.
+   Další barvu na stránku přinášejí jen snímky prací.
+   Jedno písmo: Manrope (od 2. 10. 2026 místo Instrument Serif a Archivo). */
+
+/* Manrope z vlastního serveru (variabilní, váhy 200–800), dvojice latin + latin-ext kvůli
+   české diakritice. Rozsahy znaků stejné jako u Google Fonts. Licence SIL Open Font License. */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("../fonts/Manrope-Variable-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("../fonts/Manrope-Variable-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* bílé tělo */
+  --paper: #ffffff;
+  --ink: #111111;            /* text a hlavní tlačítko */
+  --muted: #6b6b6b;          /* druhotný text, 5,3 : 1 na bílé */
+  --soft: #b4b4b4;           /* jen dekorativně a velký text, na bílé jen 2 : 1 */
+  --line: #e5e5e5;           /* vlasové linky */
+  --tint: #f0f0ee;           /* klidná plocha: místo pro fotku, prázdný snímek */
+
+  /* pastelová modř v písmu (rozhodnuto 2. 10. 2026); jako plocha jen listy sky a deep níž */
+  --tone: #3f5b78;           /* tmavá pastelová modř: text na bílé, 7 : 1 */
+  --tone-soft: #c9d8ea;      /* pudrová modř: text na tmavé, 13 : 1 */
+
+  /* tmavé plochy: úvod stránky a patička */
+  --night: #0a0a0a;
+  --on-night: #f3f2ef;
+  --dim: rgba(243, 242, 239, 0.6);    /* druhotný text na tmavé, 6,4 : 1 */
+  --faint: rgba(243, 242, 239, 0.18); /* linky na tmavé */
+  --device: #161616;                  /* rám telefonu a notebooku */
+
+  /* Modrá i jako plocha listu na úvodní stránce (schválil Ondřej 8. 10. 2026, v20).
+     Tlačítka zůstávají černá (na světlé) a světlá (na tmavé), ceny nikdy modře. */
+  --sky: #dfe8f1;            /* pastelová modrá plocha; tone na ní 5,7 : 1 */
+  --sky-muted: #4a5563;      /* druhotný text na sky, 6,1 : 1 (muted by tu měl jen 4,3 : 1) */
+  --sky-line: #c3cfdc;       /* vlasové linky na sky */
+  --deep: #2b4560;           /* tmavě modrá plocha; tone-soft na ní 6,8 : 1 */
+  --deep-2: #16263a;         /* ještě tmavší modrá: plocha „Takhle ho čte AI“ a hlavička malého telefonu */
+  --dim-strong: rgba(243, 242, 239, 0.74); /* druhotný text na deep 5,7 : 1 (dim by tu měl jen 4,3 : 1) */
+  --tint-line: #dcdcda;      /* vlasové linky na plochách tint (sand) */
+
+  /* Oranžová se na webu NEPOUŽÍVÁ (zrušeno 2. 10. 2026).
+     Token zůstává jen pro motion videa a ukázkovač (_ukazkovac). */
+  --accent: #da541b;
+
+  /* jedno písmo na nadpisy i text (Manrope 400 / 500 / 600) */
+  --sans: Manrope, "Helvetica Neue", Arial, sans-serif;
+
+  /* nadpisy: váha 500, prostrkání podle velikosti, řádkování 1,02–1,08 */
+  --w-head: 500;
+  --ls-xl: -0.04em;          /* titulek úvodu, podstránky, závěrečná výzva */
+  --ls-l: -0.035em;          /* nadpis sekce */
+  --ls-m: -0.03em;           /* čísla a ceny */
+  --ls-s: -0.02em;           /* mezititulky a otázky */
+
+  /* velikosti písma (mobil; tablet a desktop níž) */
+  --fs-hero: clamp(38px, 10.8vw, 46px);     /* titulek úvodu */
+  --fs-page: clamp(36px, 10.2vw, 44px);     /* titulek podstránky */
+  --fs-h2: clamp(32px, 8.6vw, 38px);        /* nadpis sekce */
+  --fs-h2-minor: clamp(26px, 7.2vw, 30px);  /* nadpis doplňující sekce, o stupeň menší (.h2--minor) */
+  --fs-h3: 21px;                            /* mezititulek a otázky */
+  --fs-end: clamp(40px, 11.6vw, 50px);      /* závěrečná výzva */
+  --fs-num: 38px;                           /* ověřená čísla, čísla kroků */
+  --fs-price: 32px;                         /* ceny „od“ */
+  --fs-stat: clamp(48px, 13vw, 56px);       /* čísla důkazu na úvodu: větší než nadpis sekce */
+  --fs-stat-one: clamp(84px, 26vw, 104px);  /* jedno velké číslo důkazu (přes 30 poptávek) */
+  --fs-plan: clamp(26px, calc(15vw - 22px), 40px); /* ceny balíčků na úvodu (mobil 2 × 2): větší než nadpis sekce */
+  --fs-lead: 18px;                          /* úvodní odstavec */
+  --fs-body: 17px;
+  --fs-small: 15px;
+  --fs-caption: 14px;                       /* nejmenší písmo na webu */
+
+  /* rozvržení */
+  --max: 1440px;
+  --gut: 20px;               /* okraj stránky */
+  --col-gap: 16px;           /* mezera mezi sloupci mřížky */
+  --gap: 112px;              /* prostor mezi sekcemi */
+  --head-h: 68px;            /* výška hlavičky */
+
+  --r-pill: 999px;           /* tlačítka */
+  --r-media: 10px;           /* videa a snímky */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gut: 40px; --col-gap: 24px; --gap: 144px; --head-h: 88px;
+    --fs-hero: 64px; --fs-page: 60px; --fs-h2: 50px; --fs-h2-minor: 38px; --fs-h3: 24px;
+    --fs-end: 84px; --fs-num: 44px; --fs-price: 38px; --fs-lead: 19px;
+    --fs-stat: 64px; --fs-stat-one: 128px; --fs-plan: 56px;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --fs-hero: clamp(64px, 6.2vw, 92px);
+    --fs-page: clamp(60px, 5.2vw, 76px);
+    --fs-h2: clamp(48px, 4.2vw, 62px);
+    --fs-h2-minor: clamp(36px, 3.1vw, 46px);
+    --fs-end: clamp(84px, 7.8vw, 116px);
+    --fs-num: clamp(42px, 3.4vw, 50px);
+    --fs-price: clamp(34px, 3vw, 44px);
+    --fs-stat: clamp(64px, 5.6vw, 84px);
+    --fs-stat-one: clamp(128px, 10vw, 152px);
+    --fs-plan: 64px;                        /* ceník 2 × 2 */
+  }
+}
+@media (min-width: 1200px) {
+  :root { --gut: 64px; --gap: 176px; }
+}
+@media (min-width: 1280px) {
+  :root { --fs-plan: clamp(54px, 4.4vw, 66px); }  /* ceník ve čtyřech sloupcích */
+}
