@@ -5,24 +5,24 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Spočítat cenu webu | Doležal Design</title>
-  <meta name="description" content="Pár otázek o vaší firmě a webu a na konci orientační cena: Start od 9 900 Kč, Firma od 19 900 Kč, Firma + obsah od 34 900 Kč. Poptávka je nezávazná.">
+  <meta name="description" content="Pár otázek o vaší firmě a webu a orientační cena hned při výběru: Start od 9 900 Kč, Firma od 19 900 Kč, Firma + obsah od 34 900 Kč. Poptávka je nezávazná.">
   <link rel="canonical" href="https://dolezaldesign.cz/poptavka/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
   <meta property="og:site_name" content="Doležal Design">
   <meta property="og:title" content="Spočítat cenu webu | Doležal Design">
-  <meta property="og:description" content="Pár otázek o vaší firmě a webu a na konci orientační cena: Start od 9 900 Kč, Firma od 19 900 Kč, Firma + obsah od 34 900 Kč. Poptávka je nezávazná.">
+  <meta property="og:description" content="Pár otázek o vaší firmě a webu a orientační cena hned při výběru: Start od 9 900 Kč, Firma od 19 900 Kč, Firma + obsah od 34 900 Kč. Poptávka je nezávazná.">
   <meta property="og:url" content="https://dolezaldesign.cz/poptavka/">
   <meta property="og:image" content="https://dolezaldesign.cz/assets/img/prace/ciste/zd-desktop.webp">
   <meta name="theme-color" content="#0a0a0a">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23111'/%3E%3Cpath transform='translate(4.4 3.2) scale(.78)' fill='%23fff' fill-rule='evenodd' d='M6 4h13a15 15 0 0 1 0 30h-6.5L6 39ZM12.4 19a2.1 2.1 0 1 0 4.2 0a2.1 2.1 0 1 0-4.2 0ZM18.4 19a2.1 2.1 0 1 0 4.2 0a2.1 2.1 0 1 0-4.2 0ZM24.4 19a2.1 2.1 0 1 0 4.2 0a2.1 2.1 0 1 0-4.2 0Z'/%3E%3C/svg%3E">
 
   <link rel="preload" href="../assets/fonts/Manrope-Variable-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../assets/css/tokens.css?v=202610092102">
-  <link rel="stylesheet" href="../assets/css/main.css?v=202610092102">
+  <link rel="stylesheet" href="../assets/css/tokens.css?v=202610092145">
+  <link rel="stylesheet" href="../assets/css/main.css?v=202610092145">
   <script>document.documentElement.classList.add('js')</script>
-  <script src="../assets/js/main.js?v=202610092102" defer></script>
-  <script src="../assets/js/poptavka.js?v=202610092102" defer></script>
+  <script src="../assets/js/main.js?v=202610092145" defer></script>
+  <script src="../assets/js/poptavka.js?v=202610092145" defer></script>
 
   <script type="application/ld+json">
 {
@@ -68,20 +68,18 @@
   </header>
 
   <main id="obsah">
-    <section class="head head--calc" aria-labelledby="page-title">
+    <section class="head head--noc head--form" aria-labelledby="page-title">
       <div class="wrap grid">
-        <p class="label label--side">Poptávka</p>
-        <div class="content head__main">
+        <div class="content content--full head__main">
           <h1 class="head__title" id="page-title">Spočítejte si <i>cenu webu.</i></h1>
-          <p class="head__lead">Pár otázek o&nbsp;vaší firmě a&nbsp;webu. Na konci uvidíte orientační cenu a&nbsp;rozhodnete se, jestli mi poptávku pošlete.</p>
+          <p class="head__lead">Pár otázek o&nbsp;vaší firmě a&nbsp;webu. Cenu uvidíte hned při výběru a&nbsp;poptávku pošlete, jen když budete chtít.</p>
         </div>
       </div>
     </section>
 
-    <section class="sec calc-sec" aria-label="Kalkulačka ceny webu">
-      <div class="wrap grid">
-        <p class="label label--side calc__progress" id="calc-progress" data-calc-progress>Pár otázek</p>
-        <div class="content">
+    <section class="sheet sheet--sky sheet--break pf" aria-label="Kalkulačka ceny webu">
+      <div class="wrap pf__layout">
+        <div class="pf__card">
           <form class="calc" action="https://formspree.io/f/mjykqzbb" method="POST" aria-label="Kalkulačka a poptávka" data-calc>
             <input type="hidden" name="_subject" value="Nová poptávka z dolezaldesign.cz">
             <input type="hidden" name="orientacni_cena" value="nespočítáno (prohlížeč bez JavaScriptu)" data-calc-quote>
@@ -90,32 +88,36 @@
               <label>Nevyplňujte <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
             </div>
 
-            <div class="calc__bar" aria-hidden="true" hidden data-calc-bar><span></span></div>
+            <div class="pf__prog" hidden data-calc-prog>
+              <p class="pf__prog-row"><span id="calc-progress" data-calc-progress>Krok 1 z 5</span><span data-calc-left></span></p>
+              <div class="pf__bar" aria-hidden="true" data-calc-bar></div>
+              <ul class="pf__chips" aria-label="Hotové odpovědi" data-calc-chips></ul>
+            </div>
 
             <fieldset class="q" data-step="obor">
               <legend><h2 class="q__title" tabindex="-1">Čím se zabýváte?</h2></legend>
               <p class="q__hint">Vyberte, co je vám nejblíž.</p>
-              <div class="opts">
+              <div class="opts opts--2">
                 <label class="opt">
-                  <input type="radio" name="obor" value="Řemeslo nebo stavba" data-key="remeslo">
-                  <span class="opt__body"><span class="opt__name">Řemeslo nebo stavba</span><span class="opt__desc">zahrady, stavby, střechy, truhlářství…</span></span>
+                  <input type="radio" name="obor" value="Řemeslo nebo stavba" data-key="remeslo" data-chip="Řemeslo nebo stavba">
+                  <span class="opt__name">Řemeslo nebo stavba</span><span class="opt__desc">zahrady, stavby, střechy, truhlářství…</span>
                 </label>
                 <label class="opt">
-                  <input type="radio" name="obor" value="Místní služba" data-key="sluzba">
-                  <span class="opt__body"><span class="opt__name">Místní služba</span><span class="opt__desc">servis, úklid, fyzioterapie…</span></span>
+                  <input type="radio" name="obor" value="Místní služba" data-key="sluzba" data-chip="Místní služba">
+                  <span class="opt__name">Místní služba</span><span class="opt__desc">servis, úklid, fyzioterapie…</span>
                 </label>
                 <label class="opt">
-                  <input type="radio" name="obor" value="Reality" data-key="reality">
-                  <span class="opt__body"><span class="opt__name">Reality</span><span class="opt__desc">realitní makléř nebo kancelář</span></span>
+                  <input type="radio" name="obor" value="Reality" data-key="reality" data-chip="Reality">
+                  <span class="opt__name">Reality</span><span class="opt__desc">realitní makléř nebo kancelář</span>
                 </label>
                 <label class="opt">
-                  <input type="radio" name="obor" value="Jiné" data-key="jine">
-                  <span class="opt__body"><span class="opt__name">Jiné</span><span class="opt__desc">napište níž, čím se zabýváte</span></span>
+                  <input type="radio" name="obor" value="Jiné" data-key="jine" data-chip="Jiný obor">
+                  <span class="opt__name">Jiné</span><span class="opt__desc">napište níž, čím se zabýváte</span>
                 </label>
               </div>
               <p class="q__error" role="alert" hidden data-calc-error>Vyberte prosím jednu možnost.</p>
               <div class="field">
-                <label class="field__label" for="obor-popis">Co přesně děláte a&nbsp;kde? <small>(nepovinné)</small></label>
+                <label class="field__label" for="obor-popis">Co přesně děláte a&nbsp;kde? <small>nepovinné</small></label>
                 <input class="field__input" id="obor-popis" type="text" name="obor_popis" maxlength="200" autocomplete="off" placeholder="např. pokrývač, Hradec Králové" data-calc-describe>
               </div>
               <p class="q__note" aria-live="polite" data-calc-shop></p>
@@ -123,167 +125,139 @@
 
             <fieldset class="q" data-step="web">
               <legend><h2 class="q__title" tabindex="-1">Máte teď web?</h2></legend>
-              <div class="opts">
+              <div class="opts opts--2">
                 <label class="opt">
-                  <input type="radio" name="ma_web" value="Ne" data-key="ne">
-                  <span class="opt__body"><span class="opt__name">Ne</span><span class="opt__desc">nebo jen profil na Firmy.cz či Facebooku</span></span>
+                  <input type="radio" name="ma_web" value="Ne" data-key="ne" data-chip="Web zatím nemám">
+                  <span class="opt__name">Ne</span><span class="opt__desc">nebo jen profil na Firmy.cz či Facebooku</span>
                 </label>
                 <label class="opt">
-                  <input type="radio" name="ma_web" value="Ano" data-key="ano">
-                  <span class="opt__body"><span class="opt__name">Ano</span><span class="opt__desc">a&nbsp;chci nový nebo lepší</span></span>
+                  <input type="radio" name="ma_web" value="Ano" data-key="ano" data-chip="Web mám">
+                  <span class="opt__name">Ano</span><span class="opt__desc">a&nbsp;chci nový nebo lepší</span>
                 </label>
               </div>
               <p class="q__error" role="alert" hidden data-calc-error>Vyberte prosím jednu možnost.</p>
               <div class="field" data-calc-url>
-                <label class="field__label" for="web-url">Adresa současného webu <small>(nepovinné)</small></label>
+                <label class="field__label" for="web-url">Adresa současného webu <small>nepovinné</small></label>
                 <input class="field__input" id="web-url" type="text" name="web_url" maxlength="200" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="např. mojefirma.cz">
               </div>
             </fieldset>
 
             <fieldset class="q" data-step="rozsah">
               <legend><h2 class="q__title" tabindex="-1">Co potřebujete?</h2></legend>
-              <p class="q__hint">Ceny jsou „od“. Přesnou vám pošlu předem.</p>
-              <div class="opts opts--priced">
-                <label class="opt">
-                  <input type="radio" name="rozsah" value="Start: jedna stránka" data-key="start">
-                  <span class="opt__body"><span class="opt__name">Jedna stránka</span><span class="opt__desc">Balíček Start.<span class="opt__more"> Řekne, co děláte, a&nbsp;dá se přes ni ozvat.</span> Texty nejsou v&nbsp;ceně.</span></span>
-                  <span class="opt__price" data-price="start">od&nbsp;9&nbsp;900&nbsp;Kč</span>
+              <p class="q__hint">Ceny jsou konečné, nejsem plátce DPH. Přesnou cenu vám pošlu předem.</p>
+              <div class="pks">
+                <label class="opt pk">
+                  <input type="radio" name="rozsah" value="Start: jedna stránka" data-key="start" data-chip="Start" data-name="Start">
+                  <span class="opt__name">Start</span>
+                  <span class="pk__price" data-price="start">od&nbsp;9&nbsp;900&nbsp;Kč</span>
+                  <span class="pk__list"><span>jedna stránka</span><span>kontaktní formulář</span><span>Google profil firmy</span></span>
                 </label>
-                <label class="opt">
-                  <input type="radio" name="rozsah" value="Firma: web do 5 stránek" data-key="firma">
-                  <span class="opt__body"><span class="opt__name">Web firmy do 5&nbsp;stránek</span><span class="opt__desc">Balíček Firma. Celý web firmy, texty píšu já.</span></span>
-                  <span class="opt__price" data-price="firma">od&nbsp;19&nbsp;900&nbsp;Kč</span>
+                <label class="opt pk">
+                  <input type="radio" name="rozsah" value="Firma: web do 5 stránek" data-key="firma" data-chip="Firma" data-name="Firma">
+                  <span class="pk__tag">texty v&nbsp;ceně</span>
+                  <span class="opt__name">Firma</span>
+                  <span class="pk__price" data-price="firma">od&nbsp;19&nbsp;900&nbsp;Kč</span>
+                  <span class="pk__list"><span>až 5&nbsp;stránek</span><span>texty píšu já</span><span>poptávkový formulář a&nbsp;WhatsApp</span></span>
                 </label>
-                <label class="opt">
-                  <input type="radio" name="rozsah" value="Firma + obsah: web, plán obsahu na sítě a 3 články" data-key="obsah">
-                  <span class="opt__body"><span class="opt__name">Web firmy + plán obsahu na sítě a&nbsp;3&nbsp;články</span><span class="opt__desc">Balíček Firma + obsah.<span class="opt__more"> Všechno z&nbsp;Firmy, plán obsahu na 3&nbsp;měsíce a&nbsp;3&nbsp;články na blog.</span></span></span>
-                  <span class="opt__price" data-price="obsah">od&nbsp;34&nbsp;900&nbsp;Kč</span>
+                <label class="opt pk">
+                  <input type="radio" name="rozsah" value="Firma + obsah: web, plán obsahu na sítě a 3 články" data-key="obsah" data-chip="Firma + obsah" data-name="Firma + obsah">
+                  <span class="opt__name">Firma + obsah</span>
+                  <span class="pk__price" data-price="obsah">od&nbsp;34&nbsp;900&nbsp;Kč</span>
+                  <span class="pk__list"><span>všechno z&nbsp;Firmy</span><span>plán obsahu na sítě na 3&nbsp;měsíce</span><span>3&nbsp;články na blog</span></span>
                 </label>
-                <label class="opt">
-                  <input type="radio" name="rozsah" value="Víc než 5 stránek" data-key="vic">
-                  <span class="opt__body"><span class="opt__name">Víc než 5&nbsp;stránek</span><span class="opt__desc opt__more">Větší web, třeba s&nbsp;vlastní stránkou pro každou službu.</span></span>
-                  <span class="opt__price opt__price--soft" data-price="vic">podle rozsahu</span>
+                <label class="opt pk pk--wide">
+                  <input type="radio" name="rozsah" value="Víc než 5 stránek" data-key="vic" data-chip="Víc než 5 stránek" data-name="Víc než 5 stránek">
+                  <span class="opt__name">Víc než 5&nbsp;stránek</span>
+                  <span class="opt__desc">větší web, třeba s&nbsp;vlastní stránkou pro každou službu</span>
+                  <span class="pk__price pk__price--soft" data-price="vic">cena podle rozsahu</span>
                 </label>
               </div>
-              <p class="q__error" role="alert" hidden data-calc-error>Vyberte prosím jednu možnost.</p>
-            </fieldset>
+              <p class="q__error" role="alert" hidden data-calc-error>Vyberte prosím balíček.</p>
 
-            <fieldset class="q" data-step="texty">
-              <legend><h2 class="q__title" tabindex="-1">Kdo napíše texty?</h2></legend>
-              <p class="q__hint" data-calc-texts-hint>U&nbsp;balíčku Start jsou texty doplněk. U&nbsp;Firmy a&nbsp;Firmy + obsah je píšu já, jsou v&nbsp;ceně.</p>
-              <div class="opts opts--priced">
-                <label class="opt">
-                  <input type="radio" name="texty" value="Napíšete vy" data-key="napsat">
-                  <span class="opt__body"><span class="opt__name">Napište je vy</span><span class="opt__desc">Pošlu vám informace o&nbsp;firmě a&nbsp;vy z&nbsp;nich napíšete texty.</span></span>
-                  <span class="opt__price" data-price="texty">+&nbsp;od&nbsp;2&nbsp;900&nbsp;Kč</span>
-                </label>
-                <label class="opt">
-                  <input type="radio" name="texty" value="Pošlu hotové texty" data-key="vlastni">
-                  <span class="opt__body"><span class="opt__name">Pošlu vám hotové texty</span><span class="opt__desc">Texty mám, nebo si je napíšu.</span></span>
-                </label>
+              <div class="mods">
+                <h3 class="mods__title">Přidat k&nbsp;webu <small>nepovinné</small></h3>
+                <div class="mods__list">
+                  <label class="mod" data-mod="texty">
+                    <input type="checkbox" name="doplnek_texty" value="Texty na web napíšete vy">
+                    <span class="mod__name">Texty na web <small data-mod-note>napíšu je z&nbsp;informací, které mi pošlete</small></span>
+                    <span class="mod__price" data-mod-price>+&nbsp;od&nbsp;2&nbsp;900&nbsp;Kč</span>
+                  </label>
+                  <label class="mod" data-mod="fotky">
+                    <input type="checkbox" name="doplnek_fotky" value="Úprava fotek pro web">
+                    <span class="mod__name">Úprava vašich fotek <small>ořez, barvy, zmenšení pro rychlost</small></span>
+                    <span class="mod__price" data-mod-price>+&nbsp;od&nbsp;990&nbsp;Kč</span>
+                  </label>
+                  <label class="mod" data-mod="google">
+                    <input type="checkbox" name="doplnek_google" value="Google profil firmy">
+                    <span class="mod__name">Google profil firmy <small data-mod-note>aby vás našli i&nbsp;na mapách</small></span>
+                    <span class="mod__price mod__price--soft" data-mod-price>po domluvě</span>
+                  </label>
+                  <label class="mod" data-mod="firmycz">
+                    <input type="checkbox" name="doplnek_firmycz" value="Profil na Firmy.cz">
+                    <span class="mod__name">Profil na Firmy.cz <small>katalog firem od Seznamu</small></span>
+                    <span class="mod__price mod__price--soft" data-mod-price>po domluvě</span>
+                  </label>
+                  <label class="mod" data-mod="pece">
+                    <input type="checkbox" name="pece" value="Ano, chci Péči (490–990 Kč/měs.)">
+                    <span class="mod__name">Péče po spuštění <small>drobné úpravy, kontrola formuláře, měsíční přehled návštěvnosti; bez závazku</small></span>
+                    <span class="mod__price" data-mod-price>490–990&nbsp;Kč/měs.</span>
+                  </label>
+                </div>
+                <p class="mods__note">Prvních 30&nbsp;dní drobných úprav po spuštění je v&nbsp;ceně každého webu.</p>
               </div>
-              <p class="q__error" role="alert" hidden data-calc-error>Vyberte prosím jednu možnost.</p>
             </fieldset>
 
             <fieldset class="q" data-step="fotky">
               <legend><h2 class="q__title" tabindex="-1">Máte fotky své práce?</h2></legend>
               <p class="q__hint">Všechno dělám na dálku, fotit nejezdím. Fotky dodáte vy, já poradím.</p>
-              <div class="opts opts--priced">
-                <label class="opt">
-                  <input type="radio" name="fotky" value="Fotky práce mám" data-key="mam">
-                  <span class="opt__body"><span class="opt__name">Fotky práce mám</span><span class="opt__desc">Pošlu vám je.</span></span>
-                </label>
-                <label class="opt">
-                  <input type="radio" name="fotky" value="Nafotím je mobilem, poraďte mi jak" data-key="mobil">
-                  <span class="opt__body"><span class="opt__name">Nafotím je mobilem, poraďte mi jak</span><span class="opt__desc">Řeknu vám, co a&nbsp;jak nafotit, aby fotky na webu fungovaly.</span></span>
-                </label>
-                <label class="opt">
-                  <input type="radio" name="fotky" value="Chci upravit své fotky pro web (doplněk)" data-key="upravit">
-                  <span class="opt__body"><span class="opt__name">Chci upravit své fotky pro web</span><span class="opt__desc">Doplněk: ořez, barvy, zmenšení pro rychlost.</span></span>
-                  <span class="opt__price" data-price="fotky">+&nbsp;od&nbsp;990&nbsp;Kč</span>
-                </label>
-              </div>
-              <p class="q__error" role="alert" hidden data-calc-error>Vyberte prosím jednu možnost.</p>
-            </fieldset>
-
-            <fieldset class="q" data-step="pece">
-              <legend><h2 class="q__title" tabindex="-1">Mám se o&nbsp;web starat i&nbsp;po spuštění?</h2></legend>
-              <p class="q__hint">Prvních 30&nbsp;dní drobných úprav je <em>v&nbsp;ceně každého webu</em>. Péče je potom bez závazku a&nbsp;zrušitelná k&nbsp;měsíci.</p>
-              <div class="opts opts--priced">
-                <label class="opt">
-                  <input type="radio" name="pece" value="Ano, chci Péči (490–990 Kč/měs.)" data-key="ano">
-                  <span class="opt__body"><span class="opt__name">Ano, chci, abyste se o&nbsp;web starali</span><span class="opt__desc">Drobné úpravy, kontrola formuláře, měsíční přehled návštěvnosti.</span></span>
-                  <span class="opt__price" data-price="pece">490–990&nbsp;Kč/měs.</span>
-                </label>
-                <label class="opt">
-                  <input type="radio" name="pece" value="Zatím ne" data-key="ne">
-                  <span class="opt__body"><span class="opt__name">Zatím ne</span><span class="opt__desc">Stačí mi 30&nbsp;dní úprav v&nbsp;ceně.</span></span>
-                </label>
-              </div>
-              <p class="q__error" role="alert" hidden data-calc-error>Vyberte prosím jednu možnost.</p>
-            </fieldset>
-
-            <fieldset class="q" data-step="termin">
-              <legend><h2 class="q__title" tabindex="-1">Kdy chcete začít?</h2></legend>
-              <p class="q__hint">Web je hotový <em>do 14&nbsp;dní od dodání podkladů</em>: textů nebo informací pro texty, fotek a&nbsp;přístupu k&nbsp;doméně.</p>
               <div class="opts">
                 <label class="opt">
-                  <input type="radio" name="termin" value="Co nejdřív" data-key="hned">
-                  <span class="opt__body"><span class="opt__name">Co nejdřív</span></span>
+                  <input type="radio" name="fotky" value="Fotky práce mám" data-key="mam" data-chip="Fotky mám">
+                  <span class="opt__name">Fotky práce mám</span><span class="opt__desc">pošlu vám je</span>
                 </label>
                 <label class="opt">
-                  <input type="radio" name="termin" value="Do měsíce" data-key="mesic">
-                  <span class="opt__body"><span class="opt__name">Do měsíce</span></span>
-                </label>
-                <label class="opt">
-                  <input type="radio" name="termin" value="Nespěchá, zatím zjišťuji" data-key="pozdeji">
-                  <span class="opt__body"><span class="opt__name">Nespěchá, zatím zjišťuji</span></span>
+                  <input type="radio" name="fotky" value="Nafotím je mobilem, poraďte mi jak" data-key="mobil" data-chip="Nafotím mobilem">
+                  <span class="opt__name">Nafotím je mobilem, poraďte mi jak</span><span class="opt__desc">řeknu vám, co a&nbsp;jak nafotit, aby fotky na webu fungovaly</span>
                 </label>
               </div>
               <p class="q__error" role="alert" hidden data-calc-error>Vyberte prosím jednu možnost.</p>
             </fieldset>
 
-            <div class="q q--end" data-step="vysledek">
-              <div class="calc__result" hidden data-calc-result>
-                <h2 class="q__title" tabindex="-1">Orientační cena</h2>
-                <div class="calc__total" aria-live="polite" aria-atomic="true" data-calc-total></div>
-                <dl class="rows calc__list" data-calc-list></dl>
-                <ul class="calc__terms">
-                  <li>Přesnou cenu vám pošlu předem. Ceny jsou konečné, nejsem plátce DPH.</li>
-                  <li><em>Hotový do 14&nbsp;dní</em> od dodání podkladů.</li>
-                  <li>Záloha 30&nbsp;% po domluvě, zbytek 70&nbsp;% <em>až po schválení</em> hotového webu.</li>
-                </ul>
-                <p class="calc__alt">Chcete nejdřív vidět ukázku svého webu? <a href="../ukazka/">Ukázka zdarma</a></p>
+            <fieldset class="q q--end" data-step="kontakt">
+              <legend><h2 class="q__title" tabindex="-1">Kam se vám ozvat?</h2></legend>
+              <p class="q__hint">Ozvu se vám s&nbsp;přesnou cenou a&nbsp;domluvíme podklady.</p>
+              <div class="pf__recap" hidden data-calc-recap></div>
+              <div class="calc__fields">
+                <div class="field">
+                  <label class="field__label" for="jmeno">Jméno <small>povinné</small></label>
+                  <input class="field__input" id="jmeno" type="text" name="jmeno" required autocomplete="name" maxlength="120">
+                  <p class="field__error" id="jmeno-chyba" hidden></p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="telefon">Telefon <small>povinné</small></label>
+                  <input class="field__input" id="telefon" type="tel" name="telefon" required autocomplete="tel" inputmode="tel" maxlength="40">
+                  <p class="field__error" id="telefon-chyba" hidden></p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="email">E&#8209;mail <small>nepovinné</small></label>
+                  <input class="field__input" id="email" type="email" name="email" autocomplete="email" maxlength="160" autocapitalize="off" spellcheck="false">
+                  <p class="field__error" id="email-chyba" hidden></p>
+                </div>
               </div>
-              <fieldset class="calc__who">
-                <legend><h2 class="calc__who-title">Kam se vám ozvat?</h2></legend>
-                <div class="calc__fields">
-                  <div class="field">
-                    <label class="field__label" for="jmeno">Jméno</label>
-                    <input class="field__input" id="jmeno" type="text" name="jmeno" required autocomplete="name" maxlength="120">
-                    <p class="field__error" id="jmeno-chyba" hidden></p>
-                  </div>
-                  <div class="field">
-                    <label class="field__label" for="telefon">Telefon</label>
-                    <input class="field__input" id="telefon" type="tel" name="telefon" required autocomplete="tel" inputmode="tel" maxlength="40">
-                    <p class="field__error" id="telefon-chyba" hidden></p>
-                  </div>
-                  <div class="field">
-                    <label class="field__label" for="email">E&#8209;mail <small>(nepovinné)</small></label>
-                    <input class="field__input" id="email" type="email" name="email" autocomplete="email" maxlength="160" autocapitalize="off" spellcheck="false">
-                    <p class="field__error" id="email-chyba" hidden></p>
-                  </div>
-                  <div class="field field--wide">
-                    <label class="field__label" for="poznamka">Poznámka <small>(nepovinné)</small></label>
-                    <textarea class="field__input" id="poznamka" name="poznamka" rows="3" maxlength="2000" placeholder="Co je pro vás důležité, web, který se vám líbí…"></textarea>
-                  </div>
+              <fieldset class="when">
+                <legend class="when__title">Kdy chcete začít? <small>nepovinné</small></legend>
+                <div class="when__opts">
+                  <label class="when__o"><input type="radio" name="termin" value="Co nejdřív"><span>Co nejdřív</span></label>
+                  <label class="when__o"><input type="radio" name="termin" value="Do měsíce"><span>Do měsíce</span></label>
+                  <label class="when__o"><input type="radio" name="termin" value="Nespěchá, zatím zjišťuji"><span>Nespěchá, zatím zjišťuji</span></label>
                 </div>
               </fieldset>
-            </div>
+            </fieldset>
 
-            <div class="calc__nav">
-              <button class="btn" type="submit" data-calc-next><span data-calc-next-label>Odeslat poptávku</span></button>
+            <div class="calc__nav" data-calc-nav>
               <button class="calc__back" type="button" hidden data-calc-back>Zpět</button>
+              <p class="pf__mtotal" hidden data-calc-mtotal><small data-calc-mlabel>Celkem od</small><b data-calc-mvalue></b></p>
+              <button class="btn" type="submit" data-calc-next><span data-calc-next-label>Odeslat poptávku</span></button>
             </div>
             <p class="calc__privacy" data-calc-privacy>Údaje použiju jen k&nbsp;odpovědi na poptávku. Víc v&nbsp;<a href="../ochrana-osobnich-udaju/">ochraně osobních údajů</a>.</p>
             <div class="calc__status" role="status" data-calc-status></div>
@@ -296,6 +270,18 @@
             <p class="calc__done-links"><a class="link" href="../">Zpět na úvod</a></p>
           </div>
         </div>
+
+        <aside class="pf__sum" aria-labelledby="sum-title" hidden data-calc-sum>
+          <h2 class="pf__sum-title" id="sum-title">Váš web</h2>
+          <div data-calc-lines></div>
+          <div class="pf__total" aria-live="polite" aria-atomic="true" data-calc-total></div>
+          <ul class="pf__terms">
+            <li>Přesnou cenu vám pošlu předem. Ceny jsou konečné, nejsem plátce DPH.</li>
+            <li><em>Hotový do 14&nbsp;dní</em> od dodání podkladů.</li>
+            <li>Záloha 30&nbsp;% po domluvě, zbytek 70&nbsp;% <em>až po schválení</em> hotového webu.</li>
+          </ul>
+          <p class="pf__alt">Chcete nejdřív vidět ukázku svého webu? <a href="../ukazka/">Ukázka zdarma</a></p>
+        </aside>
       </div>
     </section>
   </main>

@@ -1068,99 +1068,258 @@ html:not([data-loadtime]) .sp__unit { visibility: hidden; }  /* před změření
 @media (min-width: 768px) { .prose h2 { margin-top: 80px; } .prose p, .prose ul { font-size: 18px; } }
 
 /* =========================================================
-   Poptávka / kalkulačka (/poptavka/, 2. 10. 2026)
-   Jedna otázka na obrazovku. Bez JS je to obyčejný dlouhý formulář (všechny
-   otázky pod sebou), který se odešle rovnou na Formspree. S JS přidá poptavka.js
-   formuláři třídu .calc--steps a vidět je vždy jen jeden krok (ostatní mají hidden).
-   Volby jsou skutečné radio prvky ve fieldsetu: velké řádky přes celou šířku
-   s vlasovou linkou a vlastním kolečkem. Vybraný řádek má plné černé kolečko
-   a orámují ho černé linky. Modrá jen v písmu (štítek kroku), ceny v ink.
+   Poptávka / kalkulačka (/poptavka/), varianta A „karta s průvodcem“ (v30, 9. 10. 2026)
+   Ondřej vybral z prototypu _navrhy/v30-formular/ (?v=a): formulář má vypadat jako
+   formulář, ne jako další text na stránce. Bílá karta (.pf__card) na modrém listu
+   pod hlavou „Modrá noc“; nahoře průběh (krok, úseky, hotové odpovědi jako štítky),
+   volby jako karty s kolečkem vpravo nahoře, ve 3. kroku balíčky a doplňky jako
+   stavebnice. Od 1024 px vedle karty přilepený souhrn s cenou (.pf__sum), pod 1024 px
+   cena v liště s tlačítkem přilepené dole (.calc__nav).
+   Ceny v ink, nikdy modře; modrá jen v průběhu a štítcích. Bez JS je karta dlouhý
+   formulář se všemi otázkami pod sebou (průběh, souhrn a cena v liště se neukazují).
+   Pole .field, .calc__privacy, .calc__status, .calc__who a .calc__done-* používá
+   i formulář na /ukazka/.
    ========================================================= */
-/* hlava stránky o kus nižší, aby první otázka začala co nejvýš */
-.head--calc { padding-bottom: 48px; }
-.calc-sec { padding-top: 36px; padding-bottom: var(--gap); }
-.calc__progress { scroll-margin-top: 20px; }
-@media (min-width: 768px) {
-  .head--calc { padding-bottom: 80px; }
-  .calc-sec { padding-top: 64px; }
-}
-@media (min-width: 1024px) {
-  /* štítek kroku stojí v levém sloupci na úrovni linky průběhu */
-  .calc-sec .grid > .calc__progress { padding-top: 0; margin-top: -0.55em; }
-}
+.head--form { padding-bottom: 88px; }
+@media (min-width: 768px) { .head--form { padding-top: calc(var(--head-h) + 56px); padding-bottom: 112px; } }
+.pf.sheet { padding: 40px 0 var(--gap); }      /* list přesahuje přes hlavu o 32 px */
+@media (min-width: 768px) { .pf.sheet { padding-top: 56px; } }
 
-.calc, .calc__done { max-width: 760px; }
-/* author display (např. .btn, .field) by jinak přebil atribut hidden */
-.calc [hidden], .calc-sec [hidden] { display: none !important; }
+.pf__layout { display: grid; gap: 20px; align-items: start; }
+@media (min-width: 1024px) { .pf__layout { grid-template-columns: minmax(0, 1fr) 340px; gap: 28px; } }
+@media (min-width: 1440px) { .pf__layout { grid-template-columns: minmax(0, 1fr) 380px; } }
 
-/* průběh: vlasová linka, černá část roste s kroky */
-.calc__bar { position: relative; height: 1px; margin-bottom: 32px; background: var(--line); }
-.calc__bar span {
-  position: absolute; left: 0; top: -1px; width: 100%; height: 2px; background: var(--ink);
-  transform: scaleX(var(--done, 0)); transform-origin: left center;
-  transition: transform 0.5s var(--ease);
+/* karta a souhrn: bílý podklad s jemným stínem; uvnitř zase běžná šedá a linky
+   (list sky je přepisuje na své odstíny) */
+.pf__card, .pf__sum {
+  --muted: #6b6b6b; --line: #e5e5e5;          /* stejné hodnoty jako v tokens.css */
+  border-radius: 28px; background: var(--paper);
+  box-shadow: 0 30px 60px -36px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(17, 17, 17, 0.05);
 }
+.pf__card { min-width: 0; padding: 24px 20px 28px; }
+@media (min-width: 768px) { .pf__card { padding: 40px 44px 44px; } }
+/* author display (např. .btn, .field, .opt) by jinak přebil atribut hidden */
+.calc [hidden], .pf [hidden], .calc-sec [hidden] { display: none !important; }
+
+/* průběh: „Krok 3 z 5 · Zbývají 2 kroky“, úseky (hotové modře, aktuální napůl), štítky */
+.pf__prog { display: grid; gap: 12px; margin-bottom: 30px; scroll-margin-top: 20px; }
+.pf__prog-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; font-size: 14px; font-weight: 600; line-height: 1.4; }
+.pf__prog-row span:last-child { font-weight: 500; color: var(--muted); }
+.pf__bar { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 6px; }
+.pf__bar i { height: 6px; border-radius: 3px; background: var(--line); }
+.pf__bar i.is-done { background: var(--tone); }
+.pf__bar i.is-now { background: linear-gradient(90deg, var(--tone) 40%, var(--line) 40%); }
+.pf__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.pf__chip {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 5px 12px 5px 8px;
+  border: 0; border-radius: var(--r-pill); background: var(--sky); color: var(--tone);
+  font: 600 14px/1.3 var(--sans); cursor: pointer; transition: background-color 0.2s;
+}
+.pf__chip:hover { background: #d2dfec; }
+.pf__chip svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* otázka: fieldset bez rámu, nadpis v legendě */
 .q { min-width: 0; margin: 0; padding: 0; border: 0; }
-.q + .q { margin-top: 80px; }               /* bez JS: otázky pod sebou */
-.calc--steps .q + .q { margin-top: 0; }
 .q > legend { display: block; width: 100%; padding: 0; }
-.q__title {
-  font-size: var(--fs-h2-minor); font-weight: var(--w-head); line-height: 1.08; letter-spacing: var(--ls-m);
-  text-wrap: balance;
-}
+/* bez JS: otázky pod sebou, mezi nimi vlasová linka. Linka je stín, ne rámeček, a mezera
+   je v legendě: vykreslená legenda stojí v horním rámečku fieldsetu a odsazení by šlo až pod ni. */
+.q + .q { margin-top: 48px; box-shadow: inset 0 1px 0 var(--line); }
+.q + .q > legend { padding-top: 40px; }
+.calc--steps .q + .q { margin-top: 0; box-shadow: none; }
+.calc--steps .q + .q > legend { padding-top: 0; }
+.q__title { font-size: clamp(26px, 6.4vw, 34px); font-weight: var(--w-head); line-height: 1.1; letter-spacing: var(--ls-m); text-wrap: balance; }
 .q__title:focus { outline: none; }          /* nadpis dostává fokus jen programově při změně kroku */
-.q__hint { margin-top: 12px; max-width: 34em; font-size: 16px; line-height: 1.55; color: var(--muted); text-wrap: pretty; }
+.q__hint { margin-top: 8px; max-width: 40em; font-size: 16px; line-height: 1.55; color: var(--muted); text-wrap: pretty; }
 .q__error { margin-top: 14px; font-size: var(--fs-small); font-weight: 600; line-height: 1.45; color: var(--ink); }
 .q__note { font-size: var(--fs-small); line-height: 1.5; color: var(--ink); text-wrap: pretty; }
 .q__note:not(:empty) { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--ink); }
 
-/* volby: velké řádky přes celou šířku, mezi nimi vlasová linka */
-.opts { margin-top: 24px; border-bottom: 1px solid var(--line); }
+/* volby: karty s vlasovým rámem, kolečko vpravo nahoře, vybraná karta s černým rámem */
+.opts { display: grid; gap: 10px; margin-top: 22px; }
+@media (min-width: 560px) { .opts--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .opt {
-  display: grid; grid-template-columns: 22px minmax(0, 1fr); column-gap: 16px; align-items: start;
-  padding: 17px 0 18px; border-top: 1px solid var(--line); cursor: pointer;
+  position: relative; display: grid; align-content: start; gap: 3px;
+  padding: 16px 52px 17px 18px; border: 1.5px solid var(--line); border-radius: 16px; background: var(--paper);
+  cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
+.opt:hover { border-color: #b8b8b8; }
 .opt input {
   -webkit-appearance: none; appearance: none;
-  display: grid; place-content: center; width: 22px; height: 22px; margin: 1px 0 0;
-  border: 1.5px solid var(--muted); border-radius: 50%; background: var(--paper);
-  cursor: pointer; transition: border-color 0.2s;
+  position: absolute; top: 16px; right: 16px; width: 22px; height: 22px; margin: 0;
+  border: 1.5px solid #8a8a8a; border-radius: 50%; background: var(--paper);   /* 3,4 : 1 na bílé */
+  cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
 }
-.opt input::before {
-  content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--ink);
-  transform: scale(0); transition: transform 0.25s var(--ease);
-}
-.opt:hover input, .opt input:checked { border-color: var(--ink); }
-.opt input:checked::before { transform: scale(1); }
-.opt input:focus-visible { outline-offset: 3px; }
-.opt__body { display: contents; }         /* název, cena a popis jsou přímo v mřížce řádku */
-.opt__name { grid-column: 2; grid-row: 1; display: block; font-size: 17px; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; text-wrap: pretty; }
-.opt__desc { grid-column: 2; grid-row: 3; display: block; margin-top: 3px; font-size: var(--fs-small); line-height: 1.45; color: var(--muted); text-wrap: pretty; }
-/* cena u volby: na mobilu hned pod názvem, od 560 px na pravé hraně řádku */
-.opt__price { grid-column: 2; grid-row: 2; margin-top: 2px; font-size: 17px; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; white-space: nowrap; }
-.opt__price--soft { font-weight: 500; color: var(--muted); }
-@media (min-width: 560px) {
-  .opts--priced .opt { grid-template-columns: 22px minmax(0, 1fr) auto; }
-  .opts--priced .opt__desc { grid-row: 2; }
-  .opt__price { grid-column: 3; grid-row: 1; margin-top: 0; padding-left: 8px; text-align: right; }
-}
-/* vybraný řádek orámují černé linky (nad ním a pod ním), fokus z klávesnice obtáhne celý řádek */
+.opt input:checked { border-color: var(--ink); background: var(--ink); box-shadow: inset 0 0 0 5px var(--ink), inset 0 0 0 11px var(--paper); }
+.opt__name { font-size: 17px; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; text-wrap: pretty; }
+.opt__desc { font-size: var(--fs-small); line-height: 1.45; color: var(--muted); text-wrap: pretty; }
 @supports selector(:has(*)) {
-  .opt:has(input:checked), .opt:has(input:checked) + .opt { border-top-color: var(--ink); }
-  .opts:has(> .opt:last-child input:checked) { border-bottom-color: var(--ink); }
+  .opt:has(input:checked) { border-color: var(--ink); box-shadow: 0 0 0 0.5px var(--ink), 0 12px 24px -16px rgba(0, 0, 0, 0.35); }
   .opt input:focus-visible, .calc[data-kbd] .opt input:focus { outline: none; }
   /* data-kbd (poptavka.js) = poslední ovládání z klávesnice: WebKit po šipkách ve skupině
      voleb :focus-visible nenastaví, tak se kroužek řídí i tímhle */
-  .opt:has(input:focus-visible), .calc[data-kbd] .opt:has(input:focus) { outline: 2px solid var(--ink); outline-offset: 4px; }
-}
-@media (forced-colors: active) {
-  .opt input::before { background: CanvasText; }
+  .opt:has(input:focus-visible), .calc[data-kbd] .opt:has(input:focus) { outline: 2px solid var(--ink); outline-offset: 3px; }
 }
 
-/* textová pole: podtržená vlasovou linkou v muted (3 : 1 a víc), písmo 17 px (iOS nezvětšuje) */
+/* balíčky: tři karty vedle sebe (od 768 px), pod nimi „Víc než 5 stránek“ přes celou šířku.
+   Na mobilu je obsah balíčku v jednom řádku s tečkami, ať je krok kratší. */
+.pks { display: grid; gap: 12px; margin-top: 24px; }
+.pk { padding: 18px 52px 18px 18px; }
+.pk .opt__name { font-size: 19px; }
+.pk__price { font-size: 16px; font-weight: 600; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pk__price--soft { font-weight: 500; color: var(--muted); }
+.pk__list { margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.pk__list span:not(:last-child)::after { content: " · "; }
+.pk__tag {
+  position: absolute; top: -11px; left: 16px; padding: 3px 9px; border-radius: var(--r-pill);
+  background: var(--tone); color: var(--paper); font-size: 12px; font-weight: 700; line-height: 1.4; letter-spacing: 0.01em;
+}
+@media (min-width: 768px) {
+  .pks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pk { padding: 20px 48px 20px 18px; }
+  .pk__list { display: grid; gap: 3px; margin-top: 6px; }
+  .pk__list span { padding-left: 0.75em; text-indent: -0.75em; }   /* pomlčka visí před řádkem */
+  .pk__list span::before { content: "– "; }
+  .pk__list span:not(:last-child)::after { content: none; }
+  .pk--wide { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; align-items: baseline; padding: 16px 52px 17px 18px; }
+  .pk--wide .pk__price { grid-column: 2; grid-row: 1; }
+  .pk--wide .opt__desc { grid-column: 1; }
+}
+
+/* doplňky: řádky se čtverečkem, název s popiskem a cenou vpravo (pod 480 px pod názvem) */
+.mods { margin-top: 28px; }
+.mods__title { font-size: 16px; font-weight: 600; line-height: 1.4; }
+.mods__title small, .when__title small, .pf .field__label small { margin-left: 4px; font-size: 14px; font-weight: 500; color: var(--muted); }
+.mods__list { display: grid; gap: 8px; margin-top: 12px; }
+.mod {
+  display: grid; grid-template-columns: 22px minmax(0, 1fr); column-gap: 12px; row-gap: 2px; align-items: start;
+  padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--paper);
+  cursor: pointer; transition: border-color 0.2s, background-color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.mod:hover { border-color: #b8b8b8; }
+.mod input {
+  -webkit-appearance: none; appearance: none; grid-row: 1 / 3;
+  width: 22px; height: 22px; margin: 0; border: 1.5px solid #8a8a8a; border-radius: 6px;
+  background: var(--paper) center / 14px 14px no-repeat; cursor: pointer; transition: border-color 0.2s, background-color 0.2s;
+}
+.mod input:checked {
+  border-color: var(--ink); background-color: var(--ink);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+}
+.mod input:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.mod__name { min-width: 0; font-size: 15px; font-weight: 600; line-height: 1.35; }
+.mod__name small { display: block; margin-top: 1px; font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--muted); }
+.mod__price { grid-column: 2; font-size: 15px; font-weight: 600; line-height: 1.35; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mod__price--soft { font-weight: 500; color: var(--muted); }
+/* v ceně balíčku: zaškrtnuté šedě, nejde odškrtnout */
+.mod.is-included { cursor: default; background: #fafafa; }
+.mod.is-included:hover { border-color: var(--line); }
+.mod.is-included input { cursor: default; border-color: var(--muted); background-color: var(--muted); }
+@supports selector(:has(*)) { .mod:has(input:checked:not(:disabled)) { border-color: var(--ink); } }
+@media (min-width: 480px) {
+  .mod { grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; }
+  .mod input { grid-row: auto; }
+  .mod__price { grid-column: 3; padding-left: 8px; text-align: right; }
+}
+.mods__note { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media (forced-colors: active) {
+  .opt input, .mod input { -webkit-appearance: auto; appearance: auto; }
+}
+
+/* kontakt: pole v rámečku (v kartě čitelnější než podtržení), jeden sloupec */
+.pf .calc__fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; max-width: 520px; margin-top: 22px; }
+.pf .calc__fields .field { margin-top: 0; }
+.pf .field { margin-top: 22px; }
+.pf .field__label { font-size: 15px; }
+.pf .field__input {
+  margin-top: 8px; padding: 13px 16px; border: 1.5px solid #949494; border-radius: 12px;   /* 3 : 1 na bílé */
+  background: var(--paper);
+}
+.pf .field__input:hover { border-color: var(--ink); }
+.pf .field__input:focus, .pf .field__input[aria-invalid="true"] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.pf .q__note:not(:empty) { max-width: 520px; }
+
+/* termín: nepovinný, tři pilulky */
+.when { min-width: 0; margin: 26px 0 0; padding: 0; border: 0; }
+.when__title { padding: 0; font-size: 15px; font-weight: 600; line-height: 1.4; }
+.when__opts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.when__o { position: relative; display: inline-flex; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.when__o input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.when__o span {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 10px 16px;
+  border: 1.5px solid var(--line); border-radius: var(--r-pill); font-size: 15px; font-weight: 600; line-height: 1.3;
+  transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+.when__o:hover span { border-color: #b8b8b8; }
+.when__o input:checked + span { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.when__o input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* shrnutí v posledním kroku (mobil a tablet; na počítači je souhrn vedle karty) */
+.pf__recap { margin-top: 20px; padding: 16px 18px; border-radius: 16px; background: var(--sky); --muted: var(--sky-muted); --line: var(--sky-line); }
+.pf__recap .pf__lines { margin-top: 0; }
+.pf__recap-total { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 15px; font-weight: 600; }
+.pf__recap-total b { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pf__recap .calc__back { margin-top: 4px; font-size: 15px; }
+@media (min-width: 1024px) { .pf__recap { display: none !important; } }
+
+/* souhrn vedle karty (od 1024 px): vybrané položky, celková cena, podmínky */
+.pf__sum { display: none; }
+@media (min-width: 1024px) { .pf__sum { display: block; position: sticky; top: 24px; padding: 26px 24px 24px; } }
+.pf__sum-title { font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+.pf__empty { margin-top: 12px; font-size: 15px; line-height: 1.5; color: var(--muted); }
+.pf__lines { display: grid; gap: 10px; margin: 16px 0 0; font-size: 15px; line-height: 1.4; }
+.pf__lines div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.pf__lines dt { min-width: 0; color: var(--muted); }
+.pf__lines dd { margin: 0; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pf__lines dd.is-soft { font-weight: 500; color: var(--muted); }
+.pf__total { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+.pf__total-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 15px; font-weight: 600; }
+.pf__total-row b { font-size: 30px; font-weight: 600; line-height: 1.1; letter-spacing: var(--ls-m); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pf__plus { margin-top: 8px; font-size: 14px; line-height: 1.45; color: var(--muted); text-wrap: pretty; }
+.pf__plus--care { font-weight: 600; color: var(--ink); }
+.pf__terms { margin-top: 18px; border-top: 1px solid var(--line); }
+.pf__terms li { padding: 9px 0 10px; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.45; color: var(--muted); }
+.pf__terms em { font-style: normal; color: var(--ink); }
+.pf__alt { margin-top: 14px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.pf__alt a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+.pf__alt a:hover { color: var(--tone); }
+
+/* tlačítka: Zpět vlevo, hlavní pilulka vpravo; pod 1024 px lišta přilepená dole s cenou */
+.calc__nav { display: flex; align-items: center; gap: 12px 20px; margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line); }
+.calc__nav .btn { margin-left: auto; }
+.calc__back {
+  min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer;
+  font: 500 16px/1.3 var(--sans); color: var(--ink);
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px;
+  transition: color 0.2s;
+}
+.calc__back:hover { color: var(--tone); }
+.btn:disabled { cursor: progress; background: #2b2b2b; }
+.pf__mtotal { display: none; }
+@media (max-width: 1023.98px) {
+  .calc--steps .calc__nav {
+    position: sticky; bottom: 0; z-index: 3;
+    margin: 24px -20px 0; padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: var(--paper);
+  }
+  .pf__mtotal { display: block; min-width: 0; margin: 0; line-height: 1.2; }
+  .pf__mtotal small { display: block; font-size: 14px; color: var(--muted); }
+  .pf__mtotal b { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+}
+@media (min-width: 768px) and (max-width: 1023.98px) { .calc--steps .calc__nav { margin-inline: -44px; padding-inline: 44px; } }
+@media (max-width: 559.98px) { .calc__nav { gap: 12px 14px; } .calc__nav .btn { min-height: 52px; padding: 14px 22px; } }
+
+.calc__privacy { margin-top: 16px; max-width: 34em; font-size: var(--fs-caption); line-height: 1.5; color: var(--muted); }
+.calc__privacy a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+.calc__privacy a:hover { color: var(--tone); }
+.calc__status { font-size: 16px; line-height: 1.55; color: var(--ink); }
+.calc__status:not(:empty) { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--ink); }
+.calc__status a { font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+.calc__status a:hover { color: var(--tone); }
+
+/* textová pole (i /ukazka/): podtržená vlasovou linkou v muted (3 : 1 a víc), písmo 17 px (iOS nezvětšuje);
+   v kartě poptávky v rámečku (výš) */
 .field { margin-top: 28px; }
 .field__label { display: block; font-size: var(--fs-small); font-weight: 600; line-height: 1.4; }
 .field__label small { font-size: inherit; font-weight: 500; color: var(--muted); }
@@ -1179,40 +1338,8 @@ html:not([data-loadtime]) .sp__unit { visibility: hidden; }  /* před změření
 textarea.field__input { min-height: 104px; resize: vertical; }
 .field__error { margin-top: 8px; font-size: var(--fs-small); font-weight: 600; line-height: 1.45; color: var(--ink); }
 
-/* tlačítka: hlavní pilulka (Další / Odeslat poptávku), vedle textový odkaz Zpět */
-.calc__nav { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 32px; }
-.calc__back {
-  min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer;
-  font-size: 16px; font-weight: 500; line-height: 1.3; color: var(--ink);
-  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px;
-  transition: color 0.2s;
-}
-.calc__back:hover { color: var(--tone); }
-.btn:disabled { cursor: progress; background: #2b2b2b; }
-.calc__privacy { margin-top: 16px; max-width: 34em; font-size: var(--fs-caption); line-height: 1.5; color: var(--muted); }
-.calc__privacy a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
-.calc__privacy a:hover { color: var(--tone); }
-.calc__status { font-size: 16px; line-height: 1.55; color: var(--ink); }
-.calc__status:not(:empty) { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--ink); }
-.calc__status a { font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
-.calc__status a:hover { color: var(--tone); }
-
-/* výsledek: velká orientační cena (--fs-plan, na mobilu aspoň 44 px; ink, ne modrá),
-   pod ní co jste vybrali */
-.calc__total { margin-top: 20px; }
-.calc__sum { font-size: max(var(--fs-plan), 44px); font-weight: var(--w-head); line-height: 1.04; letter-spacing: var(--ls-m); }
-.calc__sum small { font-size: 17px; font-weight: 500; letter-spacing: 0; color: var(--muted); }
-.calc__plus, .calc__care { margin-top: 10px; font-size: 17px; font-weight: 500; line-height: 1.45; }
-.calc__plus { color: var(--muted); }
-.calc__list { margin-top: 24px; }
-.calc__list > div { padding: 14px 0 15px; }
-.calc__list dd { font-weight: 600; white-space: nowrap; }
-.calc__list dd .blank { font-weight: 500; }
-.calc__terms { margin-top: 20px; }
-.calc__terms li { padding: 9px 0 10px; border-bottom: 1px solid var(--line); font-size: var(--fs-small); line-height: 1.45; color: var(--muted); }
-
-/* kontakt: černá linka nad skupinou. Legenda je plovoucí, takže není „vykreslená legenda“
-   a linku fieldsetu neprotne (chová se jako obyčejný blok). */
+/* kontakt na /ukazka/: černá linka nad skupinou. Legenda je plovoucí, takže není „vykreslená
+   legenda“ a linku fieldsetu neprotne (chová se jako obyčejný blok). */
 .calc__who { min-width: 0; margin: 48px 0 0; padding: 20px 0 0; border: 0; border-top: 1px solid var(--ink); }
 .calc__who > legend { float: left; width: 100%; margin-bottom: 16px; padding: 0; }
 .calc__who > legend + * { clear: left; }
@@ -1224,6 +1351,7 @@ textarea.field__input { min-height: 104px; resize: vertical; }
   .calc__fields .field:nth-child(2) { margin-top: 0; }
   .calc__who > legend { margin-bottom: 20px; }
   .calc__fields .field--wide { grid-column: 1 / -1; }
+  .calc__who { margin-top: 64px; padding-top: 24px; }
 }
 
 /* poděkování po odeslání */
@@ -1232,27 +1360,12 @@ textarea.field__input { min-height: 104px; resize: vertical; }
 .calc__done-more a { color: var(--ink); white-space: nowrap; border-bottom: 1px solid currentColor; }
 .calc__done-links { margin-top: 28px; }
 
-@media (min-width: 768px) {
-  .q__hint { margin-top: 14px; font-size: 17px; }
-  .opts { margin-top: 32px; }
-  .opt { padding: 20px 0 21px; }
-  .calc__nav { margin-top: 40px; }
-  .calc__total { margin-top: 28px; }
-  .calc__plus, .calc__care { font-size: 18px; }
-  .calc__list { margin-top: 32px; }
-  .calc__who { margin-top: 64px; padding-top: 24px; }
-}
-
-/* nízký telefon (iPhone SE, iPhone v Safari s lištami): těsnější řádky a kratší popisy
-   balíčků (.opt__more), aby se i krok s balíčky vešel na obrazovku i s tlačítkem Další */
+/* nízký telefon (iPhone SE, iPhone v Safari s lištami): těsnější karta a volby */
 @media (max-width: 559.98px) and (max-height: 760px) {
-  .calc-sec { padding-top: 28px; }
-  .calc__progress { padding-bottom: 12px; }
-  .calc__bar { margin-bottom: 24px; }
-  .opts { margin-top: 18px; }
-  .opt { padding: 13px 0 14px; }
-  .opt__more { display: none; }
-  .calc__nav { margin-top: 24px; }
+  .pf__card { padding-top: 20px; }
+  .pf__prog { margin-bottom: 22px; }
+  .opts, .pks { margin-top: 16px; }
+  .opt { padding-block: 13px 14px; }
 }
 
 /* krok se při změně jen jemně objeví (s omezeným pohybem ne, viz konec souboru) */
