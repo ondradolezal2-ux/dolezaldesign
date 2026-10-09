@@ -18,10 +18,35 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23111'/%3E%3Cpath transform='translate(4.4 3.2) scale(.78)' fill='%23fff' fill-rule='evenodd' d='M6 4h13a15 15 0 0 1 0 30h-6.5L6 39ZM12.4 19a2.1 2.1 0 1 0 4.2 0a2.1 2.1 0 1 0-4.2 0ZM18.4 19a2.1 2.1 0 1 0 4.2 0a2.1 2.1 0 1 0-4.2 0ZM24.4 19a2.1 2.1 0 1 0 4.2 0a2.1 2.1 0 1 0-4.2 0Z'/%3E%3C/svg%3E">
 
   <link rel="preload" href="../assets/fonts/Manrope-Variable-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../assets/css/tokens.css?v=202610081959">
-  <link rel="stylesheet" href="../assets/css/main.css?v=202610081959">
+  <link rel="stylesheet" href="../assets/css/tokens.css?v=202610092102">
+  <link rel="stylesheet" href="../assets/css/main.css?v=202610092102">
   <script>document.documentElement.classList.add('js')</script>
-  <script src="../assets/js/main.js?v=202610081959" defer></script>
+  <script src="../assets/js/main.js?v=202610092102" defer></script>
+
+  <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Úvod",
+            "item": "https://dolezaldesign.cz/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Práce",
+            "item": "https://dolezaldesign.cz/prace/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <a class="skip" href="#obsah">Přeskočit na obsah</a>
@@ -42,21 +67,20 @@
   </header>
 
   <main id="obsah">
-    <section class="head" aria-labelledby="page-title">
+    <section class="head head--noc" aria-labelledby="page-title">
       <div class="wrap grid">
-        <p class="label label--side">Práce</p>
-        <div class="content head__main">
+        <div class="content content--full head__main">
           <h1 class="head__title" id="page-title">Co jsem postavil. <i>A&nbsp;co to dělá.</i></h1>
           <p class="head__lead">Ukazuju jen práci, kterou ukázat smím, a&nbsp;jen čísla, která doložím. Klientské projekty sem přibydou se souhlasem klientů.</p>
         </div>
       </div>
     </section>
 
-    <section class="sec" id="weby" aria-labelledby="weby-title">
+    <section class="sheet sheet--paper sheet--break" id="weby" aria-labelledby="weby-title">
       <div class="wrap grid">
         <p class="label label--side">Weby</p>
         <div class="content">
-          <h2 class="h2" id="weby-title" data-reveal>Zahrady Doležal.</h2>
+          <h2 class="h2" id="weby-title" data-reveal>Zahrady Doležal. <i>Přes 30 poptávek za srpen a&nbsp;září 2026.</i></h2>
           <figure class="pair" data-reveal>
             <a class="laptop" href="../prace/zahrady-dolezal/" aria-label="Případovka Zahrady Doležal">
               <span class="laptop__lid"><img src="../assets/img/prace/ciste/zd-desktop.webp" width="1440" height="900" alt="Úvodní stránka webu Zahrady Doležal na počítači" loading="lazy" decoding="async"></span>
@@ -86,7 +110,25 @@
       </div>
     </section>
 
-    <section class="sec sec--tight" aria-labelledby="dalsi-title">
+    <section class="sheet sheet--sky" id="detaily" aria-labelledby="detaily-title">
+      <div class="wrap grid">
+        <div class="content content--full">
+          <h2 class="h2" id="detaily-title" data-reveal>Proč přes něj chodí poptávky? <i>Kvůli detailům.</i></h2>
+          <p class="text">Web Zahrady Doležal odpoví dřív, než se zákazník zeptá. <em>Takhle přemýšlím u&nbsp;každého webu.</em></p>
+          <ul class="b-grid">
+            <li class="b-tile"><div class="b-shot b-shot--top"><img src="../assets/img/prace/detaily/nahore.webp" width="780" height="430" alt="Lišta s nabídkou první konzultace zdarma a místem působení" loading="lazy" decoding="async"></div><p class="b-text"><b>Nabídka zdarma hned nahoře</b><span>A pod ní, kde firma pracuje. Ještě před nadpisem.</span></p></li>
+            <li class="b-tile"><div class="b-shot"><img src="../assets/img/prace/detaily/cena.webp" width="780" height="1004" alt="Cena od 12 000 Kč za rok se základním rozsahem" loading="lazy" decoding="async"></div><p class="b-text"><b>Cena dřív, než se zeptáte</b><span>Od 12 000 Kč za rok, přesně po obhlídce. Zákazník ví, do čeho jde.</span></p></li>
+            <li class="b-tile"><div class="b-shot"><img src="../assets/img/prace/detaily/whatsapp.webp" width="780" height="327" alt="Bublina WhatsApp: obvykle odpovídáme během pár minut" loading="lazy" decoding="async"></div><p class="b-text"><b>Odpověď do pár minut</b><span>Kdo nechce volat, napíše na WhatsApp. Jedním klepnutím.</span></p></li>
+            <li class="b-tile"><div class="b-shot b-shot--top b-shot--fade"><img src="../assets/img/prace/detaily/otazky.webp" width="780" height="897" alt="Časté otázky: sekání trávníku, víkendy, první schůzka" loading="lazy" decoding="async"></div><p class="b-text"><b>Otázky, které lidé opravdu kladou</b><span>Pracujete i o víkendu? Musím být doma? Odpověď je na webu. A přečte ji i Google a AI.</span></p></li>
+            <li class="b-tile"><div class="b-shot b-shot--top b-shot--fade b-shot--dark"><img src="../assets/img/prace/detaily/formular.webp" width="780" height="783" alt="Formulář: jméno, telefon, nepovinný e-mail a zpráva s příkladem" loading="lazy" decoding="async"></div><p class="b-text"><b>Formulář bez zbytečností</b><span>Jméno, telefon a zpráva s příkladem, co napsat. E-mail nepovinný.</span></p></li>
+            <li class="b-tile"><div class="b-shot"><img src="../assets/img/prace/detaily/realizace.webp" width="780" height="954" alt="Realizace: údržba firemního areálu v Hradci Králové" loading="lazy" decoding="async"></div><p class="b-text"><b>Realizace i s místem</b><span>U každé zakázky je, kde byla. Soused z vedlejší obce vidí, že firma jezdí i k němu.</span></p></li>
+          </ul>
+          <p class="b-src">Výřezy z&nbsp;webu <a href="https://zahradydolezal.cz/">zahradydolezal.cz</a> na mobilu, stav 8.&nbsp;10.&nbsp;2026.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sheet sheet--paper" aria-labelledby="dalsi-title">
       <div class="wrap grid">
         <p class="label label--side">Další web</p>
         <div class="content">
@@ -102,7 +144,7 @@
       </div>
     </section>
 
-    <section class="sec" id="motion" aria-labelledby="motion-title">
+    <section class="sheet sheet--sand" id="motion" aria-labelledby="motion-title">
       <div class="wrap grid">
         <p class="label label--side">Motion videa</p>
         <div class="content">
@@ -131,7 +173,7 @@
       </div>
     </section>
 
-    <section class="end" aria-labelledby="end-title">
+    <section class="sheet sheet--night sheet--break end" aria-labelledby="end-title">
       <div class="wrap">
         <h2 class="end__title" id="end-title" data-reveal>Chcete být další?</h2>
         <div class="end__row">

@@ -1665,3 +1665,71 @@ textarea.field__input { min-height: 104px; resize: vertical; }
 .sheet:not(.sheet--break) { margin-top: 0; border-radius: 0; box-shadow: none; padding-top: 64px; }
 @media (min-width: 768px) { .sheet:not(.sheet--break) { padding-top: 80px; } }
 @media (min-width: 1200px) { .sheet:not(.sheet--break) { padding-top: 112px; } }
+
+/* =========================================================
+   Podstránky v novém vzhledu (v29, 9. 10. 2026; zatím Práce)
+   Hlava „Modrá noc“ jako úvod, bez štítku vlevo; pod ní listy (.sheet).
+   ========================================================= */
+.head--noc {
+  background: var(--night);
+  background:
+    radial-gradient(ellipse 55% 75% at 84% 60%, rgba(63, 91, 120, 0.78), transparent 70%),   /* tone */
+    radial-gradient(ellipse 80% 60% at 0% 110%, rgba(43, 69, 96, 0.7), transparent 72%),     /* deep */
+    linear-gradient(180deg, var(--night) 0%, #0f1a27 55%, var(--deep-2) 100%);
+  padding-bottom: 112px;                 /* první list pod ní přesahuje o 32 px */
+}
+.head--noc .head__lead { color: var(--dim-strong); }
+@media (min-width: 768px) { .head--noc { padding-bottom: 152px; } }
+
+/* Práce · Kvůli detailům: šest dlaždic s výřezem ze skutečného webu a jednou větou */
+.b-grid { display: grid; gap: 20px; margin-top: 48px; }
+.b-tile { display: grid; grid-template-rows: auto 1fr; overflow: hidden; border-radius: 22px; background: var(--paper); }
+.b-shot { display: grid; place-items: center; height: 300px; padding: 28px; background: var(--tint); overflow: hidden; }
+.b-shot img { width: auto; height: auto; max-height: 244px; border-radius: 14px; box-shadow: 0 18px 36px -18px rgba(0, 0, 0, 0.32); }
+.b-shot--top { place-items: start center; padding-bottom: 0; }
+.b-shot--top img { width: 100%; max-height: none; border-radius: 14px 14px 0 0; }
+/* výřez delší než dlaždice se dole rozplyne, ať nekončí useknutým řádkem */
+.b-shot--fade img { -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 96%); mask-image: linear-gradient(180deg, #000 62%, transparent 96%); }
+.b-shot--dark { background: #2a2a2a; }
+.b-text { padding: 22px 24px 26px; }
+.b-text b { display: block; font-size: 20px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; }
+.b-text span { display: block; margin-top: 6px; font-size: 16px; line-height: 1.5; color: var(--muted); }
+.b-src { margin-top: 32px; font-size: var(--fs-caption); font-weight: 500; color: var(--muted); }
+.b-src a { color: inherit; border-bottom: 1px solid currentColor; }
+@media (min-width: 700px) { .b-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .b-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .b-shot { height: 320px; } .b-shot img { max-height: 264px; } }
+
+/* =========================================================
+   Nabídka ukázky v rohu (v29, 9. 10. 2026): malý panel, ne okno přes obsah.
+   Počítač: karta vpravo dole. Mobil: tenká karta přes šířku dole. main.js „Nabídka ukázky“.
+   ========================================================= */
+.offer {
+  position: fixed; z-index: 60; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 16px;
+  padding: 14px 52px 14px 18px; border-radius: 18px;
+  background: var(--paper); color: var(--ink);
+  box-shadow: 0 22px 44px -16px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(17, 17, 17, 0.06);
+  opacity: 0; transform: translateY(16px); transition: opacity 0.3s, transform 0.45s var(--ease);
+}
+.offer.is-in { opacity: 1; transform: none; }
+.offer__title { grid-column: 1; font-size: 16px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+.offer__text { display: none; }
+.offer__btn { grid-column: 2; grid-row: 1; }
+.offer__close {
+  position: absolute; top: 50%; right: 8px; transform: translateY(-50%);
+  display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%;
+  background: transparent; color: var(--muted); cursor: pointer; transition: background-color 0.2s, color 0.2s;
+}
+.offer__close:hover { background: var(--tint); color: var(--ink); }
+.offer__close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+@media (min-width: 900px) {
+  .offer {
+    left: auto; right: 24px; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); width: 340px;
+    grid-template-columns: 1fr; gap: 0; padding: 22px 22px 22px 24px; border-radius: 22px;
+  }
+  .offer__title { padding-right: 36px; font-size: 19px; }
+  .offer__text { display: block; margin-top: 6px; font-size: var(--fs-small); line-height: 1.5; color: var(--muted); }
+  .offer__btn { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 16px; }
+  .offer__close { top: 10px; right: 10px; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .offer { transition: none; } }

@@ -255,22 +255,40 @@
     }
   }
 
-  /* ---------- Cookie lišta a GA4 až po souhlasu ---------- */
-  // GA4 ID zatím není. Dokud není vyplněné, neběží žádné měření a lišta se nezobrazuje.
-  const GA4_ID = '';
+  /* ---------- Cookie lišta a GA4 až po souhlasu (Consent Mode v2) ---------- */
+  // Rozhodnuto 9. 10. 2026: měření přes Google Analytics 4 s lištou. Dokud GA4_ID není
+  // vyplněné, neběží nic a lišta se neukazuje. GA se načte AŽ po kliknutí na Souhlasím
+  // (předem se nic nenačítá ani neukládá); Consent Mode v2 mu řekne, že reklamní signály
+  // jsou zakázané a měření povolené. Odmítnutí (i později přes „Změnit souhlas“) měření
+  // vypne a smaže cookies _ga. Volba se pamatuje v localStorage (dd-cookie-consent).
+  const GA4_ID = '';                 // sem měřicí ID z Google Analytics, tvar G-XXXXXXXXXX
   const CONSENT_KEY = 'dd-cookie-consent';
 
   const loadAnalytics = () => {
-    if (!GA4_ID || window.__ga4Loaded) return;
+    if (!GA4_ID) return;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    if (window.__ga4Loaded) { window.gtag('consent', 'update', { analytics_storage: 'granted' }); return; }
     window.__ga4Loaded = true;
+    window.gtag('consent', 'default', {
+      ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+      analytics_storage: 'granted',
+    });
+    window.gtag('js', new Date());
+    window.gtag('config', GA4_ID);
     const s = document.createElement('script');
     s.async = true;
     s.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`;
     document.head.appendChild(s);
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function () { window.dataLayer.push(arguments); };
-    window.gtag('js', new Date());
-    window.gtag('config', GA4_ID, { anonymize_ip: true });
+  };
+  const stopAnalytics = () => {
+    if (typeof window.gtag === 'function') window.gtag('consent', 'update', { analytics_storage: 'denied' });
+    // cookies _ga a _ga_<ID> smazat na této doméně i o úroveň výš (.dolezaldesign.cz)
+    const host = location.hostname;
+    const domains = ['', host, '.' + host.split('.').slice(-2).join('.')];
+    document.cookie.split(';').map((c) => c.trim().split('=')[0]).filter((n) => /^_ga(_|$)/.test(n)).forEach((n) => {
+      domains.forEach((d) => { document.cookie = `${n}=; Max-Age=0; path=/${d ? '; domain=' + d : ''}`; });
+    });
   };
 
   const cookieBar = document.querySelector('[data-cookie-bar]');
@@ -284,11 +302,51 @@
     if (stored === 'accepted') loadAnalytics();
     else if (!stored) setTimeout(() => cookieBar.classList.add('is-visible'), 800);
     cookieBar.querySelector('[data-cookie-accept]')?.addEventListener('click', () => { loadAnalytics(); close('accepted'); });
-    cookieBar.querySelector('[data-cookie-decline]')?.addEventListener('click', () => close('declined'));
+    cookieBar.querySelector('[data-cookie-decline]')?.addEventListener('click', () => { stopAnalytics(); close('declined'); });
     document.querySelectorAll('[data-cookie-settings]').forEach((el) => {
       el.addEventListener('click', (e) => { e.preventDefault(); cookieBar.classList.add('is-visible'); });
     });
   }
+
+  /* ---------- Nabídka ukázky v rohu (v29, 9. 10. 2026, Ondřej vybral variantu B) ---------- */
+  // Malý panel, ne okno přes obsah (Google na mobilu trestá okna, která zakryjí obsah).
+  // Ukáže se jednou za návštěvu, až člověk dojede přes polovinu stránky, na počítači
+  // i při odchodu myší nahoru. Ne na stránkách s formulářem (/ukazka/, /poptavka/), ne na
+  // úvodu na mobilu (tam je lepkavá lišta) a ne, dokud je vidět cookie lišta. Zavře se
+  // křížkem nebo Escape, fokus nebere. Bez JS není.
+  (() => {
+    const path = location.pathname;
+    if (/^\/(ukazka|poptavka)\//.test(path) || document.querySelector('main > .head--full')) return;
+    const narrow = matchMedia('(max-width: 899.98px)');
+    const isHome = !!document.querySelector('main > .scene');
+    const KEY = 'dd-nabidka';
+    try { if (sessionStorage.getItem(KEY)) return; } catch (e) {}
+    const panel = document.createElement('aside');
+    panel.className = 'offer';
+    panel.setAttribute('aria-label', 'Ukázka webu zdarma');
+    panel.innerHTML = '<p class="offer__title">Jak by vypadal váš web?</p>'
+      + '<p class="offer__text">Pošlete odkaz a&nbsp;ukázku nové úvodní stránky vám připravím zdarma.</p>'
+      + '<a class="btn btn--sm offer__btn" href="/ukazka/">Chci ukázku</a>'
+      + '<button class="offer__close" type="button" aria-label="Zavřít nabídku"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>';
+    let shown = false;
+    const consentOpen = () => document.querySelector('[data-cookie-bar].is-visible');
+    const show = () => {
+      if (shown || consentOpen() || (isHome && narrow.matches)) return;
+      shown = true;
+      try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+      document.body.appendChild(panel);
+      requestAnimationFrame(() => panel.classList.add('is-in'));
+    };
+    const hide = () => { panel.classList.remove('is-in'); setTimeout(() => panel.remove(), 300); };
+    panel.querySelector('.offer__close').addEventListener('click', hide);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && panel.isConnected) hide(); });
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      if (max > 0 && scrollY / max > 0.5) { show(); removeEventListener('scroll', onScroll); }
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('mouseout', (e) => { if (!narrow.matches && !e.relatedTarget && e.clientY <= 0) show(); });
+  })();
 
   /* ---------- Živé měření načtení (Performance API) ---------- */
   const fmt = (ms) => {
