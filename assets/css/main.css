@@ -1373,107 +1373,30 @@ textarea.field__input { min-height: 104px; resize: vertical; }
 @keyframes calc-in { from { opacity: 0; transform: translateY(8px); } }
 
 /* =========================================================
-   Ukázka zdarma (/ukazka/, 8. 10. 2026)
+   Ukázka zdarma (/ukazka/), od 14. 10. 2026 ve vzhledu poptávky (v31, varianta B)
    Hlavní výzva webu: návštěvník pošle odkaz na svůj web (nebo profil na Googlu či
-   Facebooku) a z jeho textů a fotek dostane ukázku nové úvodní stránky. Kalkulačka
-   (/poptavka/) je od 8. 10. 2026 vedlejší cesta.
-   Stránka: krátká tmavá hlava (.head--ask), tři kroky (.steps--three, od 1024 px
-   vedle sebe), formulář (.ask) a vedle něj „Co máte jisté“ (.ask-terms, od 1024 px
-   v levém sloupci jako .needs u kroků na úvodu), pod ním odkaz na kalkulačku (.ask-alt).
-   Formulář používá části kalkulačky: skupiny .calc__who s černou linkou, pole .field,
-   mřížku kontaktu .calc__fields, řádek o údajích .calc__privacy, stav .calc__status
-   a poděkování (.q__title, .calc__done-*). Navíc zaškrtávátko .check („Web zatím
-   nemám“), vypnuté pole a nápověda u pole. Bez JS je to obyčejný formulář na
-   Formspree; s JS (ukazka.js) kontrola u polí, odeslání přes fetch a poděkování.
+   Facebooku) a z jeho textů a fotek dostane ukázku nové úvodní stránky.
+   Stránka používá části poptávky: hlava .head--noc.head--form, modrý list .pf, karta
+   .pf__card s průběhem (.pf__prog), volby .opt, pole v rámečku a lišta s tlačítky.
+   Dva kroky (ukazka.js): „Máte teď web?“ a obor → „Kam vám ukázku poslat?“. Bez JS
+   obyčejný formulář se vším pod sebou. Vedle karty (na mobilu a tabletu pod ní) boční
+   karta .ask-side: „Jak to funguje“ (tři kroky) a „Co máte jisté“ (čtyři podmínky).
+   Předchozí podoba (tři kroky a formulář s linkami) je v _navrhy/v31-ukazka/zaloha-*.
    ========================================================= */
-.head--ask { padding-bottom: 48px; }
-.ask-how { padding-top: 56px; }
-.ask-how .steps { margin-top: 28px; }
-.ask-sec { padding-top: 72px; padding-bottom: var(--gap); }
-.ask, .ask__done { max-width: 760px; }
-.ask [hidden], .ask-sec [hidden] { display: none !important; }
-.ask > .ask__group:first-of-type { margin-top: 32px; }
-.ask__group .field { margin-top: 22px; }
-.ask__group > legend + .field { margin-top: 0; }
-.ask__send { margin-top: 32px; }
-@media (min-width: 768px) {
-  .head--ask { padding-bottom: 80px; }
-  .ask-how { padding-top: 88px; }
-  .ask-how .steps { margin-top: 40px; }
-  .ask-sec { padding-top: 112px; }
-  .ask > .ask__group:first-of-type { margin-top: 44px; }
-  .ask__send { margin-top: 40px; }
-}
-
-/* tři kroky: na mobilu a tabletu řádky jako jinde (.steps), od 1024 px tři sloupce
-   oddělené vlasovou linkou (číslo, název, popis pod sebou) */
-@media (min-width: 1024px) {
-  .ask-how .steps { margin-top: 48px; }
-  .steps--three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
-  .steps--three li { display: block; padding: 24px 24px 4px 0; border-top: 0; }
-  .steps--three li + li { padding-left: 24px; border-left: 1px solid var(--line); }
-  .steps--three li:last-child { padding-right: 0; border-bottom: 0; }
-  .steps--three .n { display: block; margin-bottom: 18px; }
-  .steps--three h3 { margin-bottom: 8px; }
-  .steps--three p { max-width: 24em; }
-}
-
-/* zaškrtávátko: čtverec 22 px s vlasovou linkou v muted, zaškrtnuté plné ink s bílou fajfkou;
-   celý řádek je cíl pro prst (44 px) */
-.check {
-  display: inline-flex; align-items: center; gap: 12px; min-height: 44px; margin-top: 8px;
-  font-size: 16px; font-weight: 500; line-height: 1.3; cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-.check input {
-  -webkit-appearance: none; appearance: none; flex: none;
-  display: grid; place-content: center; width: 22px; height: 22px; margin: 0;
-  border: 1.5px solid var(--muted); border-radius: 0; background: var(--paper);
-  cursor: pointer; transition: border-color 0.2s, background-color 0.2s;
-}
-.check input::before {
-  content: ""; width: 11px; height: 6px; margin-top: -3px;
-  border-left: 2px solid var(--paper); border-bottom: 2px solid var(--paper);
-  transform: rotate(-45deg) scale(0); transition: transform 0.25s var(--ease);
-}
-.check:hover input { border-color: var(--ink); }
-.check input:checked { border-color: var(--ink); background: var(--ink); }
-.check input:checked::before { transform: rotate(-45deg) scale(1); }
-.check input:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-@media (forced-colors: active) {
-  .check input { -webkit-appearance: auto; appearance: auto; }
-  .check input::before { display: none; }
-}
-
-/* vypnuté pole (adresa webu, když web zatím nemáte) a nápověda pod polem */
-.field__input:disabled { border-bottom-color: var(--line); background: transparent; color: var(--muted); cursor: not-allowed; }
-.field__input:disabled::placeholder { color: var(--soft); }
-.field:has(> .field__input:disabled) > .field__label { color: var(--muted); }
+.pf__sum.ask-side { display: block; padding: 24px 22px 22px; }
+@media (min-width: 1024px) { .pf__sum.ask-side { position: sticky; top: 24px; padding: 26px 24px 24px; } }
+.ask-kroky { display: grid; gap: 4px; margin: 14px 0 0; padding: 0; list-style: none; }
+.ask-kroky li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; padding: 9px 0; font-size: 15px; line-height: 1.45; color: var(--muted); }
+.ask-kroky li b { display: block; color: var(--ink); font-weight: 600; }
+.ask-kroky .n { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--sky); color: var(--tone); font-size: 14px; font-weight: 700; }
+.ask-side h3 { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 16px; font-weight: 600; }
+.ask-side .pf__terms { margin-top: 8px; border-top: 0; }
+.ask-side .pf__terms li:last-child { border-bottom: 0; }
+.ask-side .pf__terms b { font-weight: 600; color: var(--ink); }
+/* nápověda pod polem (Nemáte ani profil? Zavolejte…) */
 .field__hint { margin-top: 8px; font-size: var(--fs-small); line-height: 1.45; color: var(--muted); }
 .field__hint a { color: var(--ink); white-space: nowrap; border-bottom: 1px solid currentColor; transition: color 0.2s; }
 .field__hint a:hover { color: var(--tone); }
-.ask__done .calc__done-text { max-width: 30em; text-wrap: pretty; }
-.ask__done:not([hidden]) { animation: calc-in 0.45s var(--ease) both; }  /* s omezeným pohybem ne (konec souboru) */
-
-/* Co máte jisté: černá linka, název, čtyři podmínky s vlasovými linkami (jako .needs) */
-.ask-terms { margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--ink); }
-.ask-terms__title { font-size: 16px; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; }
-.ask-terms__list { margin-top: 12px; }
-.ask-terms__list li { padding: 11px 0 12px; border-top: 1px solid var(--line); font-size: var(--fs-small); line-height: 1.5; color: var(--muted); text-wrap: pretty; }
-.ask-terms__list strong { font-weight: 600; color: var(--ink); }
-/* vedlejší cesta: kalkulačka */
-.ask-alt { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-top: 48px; font-size: 16px; color: var(--muted); }
-@media (min-width: 768px) {
-  .ask-terms { max-width: 760px; margin-top: 80px; }
-  .ask-terms__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--col-gap); }
-  .ask-alt { margin-top: 56px; }
-}
-@media (min-width: 1024px) {
-  /* v levém sloupci pod štítkem, vedle formuláře; pod sebou */
-  .grid--aside > .ask-terms { grid-column: 1 / 4; grid-row: 2; align-self: start; margin: 40px 16px 0 0; }
-  .grid--aside > .ask-terms .ask-terms__list { display: block; }
-  .grid--aside > .ask-alt { grid-column: 4 / 13; }
-}
 
 /* Odkazy na ukázku jinde na webu (8. 10. 2026) */
 /* odpověď v častých otázkách s odkazem */

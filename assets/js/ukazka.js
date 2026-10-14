@@ -1,12 +1,13 @@
 /* Doležal Design — žádost o ukázku webu zdarma (/ukazka/). Vanilla JS, bez závislostí
    a bez build kroku. Načítá se jen na téhle stránce (defer).
-   Bez JS je to obyčejný formulář, který se odešle rovnou na Formspree (pole pro odkaz
-   na profil je pak vidět vždy). S JS: zaškrtnutí „Web zatím nemám“ vypne adresu webu
-   a ukáže odkaz na profil, pole se kontrolují s hláškou přímo u pole, odeslání jde přes
-   fetch bez opuštění stránky a místo formuláře se ukáže poděkování. Když odeslání selže,
-   vyplněné údaje zůstanou a ukáže se telefon a WhatsApp.
-   Hlášky, odeslání i chybový stav jsou stejné jako u kalkulačky (poptavka.js); pár
-   pomocníků je tu záměrně zopakovaných, aby se kalkulačka nemusela přestavovat. */
+   Od 14. 10. 2026 (v31, varianta B) ve vzhledu poptávky: dva kroky v kartě, nahoře
+   „Krok 1 ze 2“, úseky průběhu a hotové odpovědi jako štítky (klepnutím zpět).
+   1. Máte teď web? (Mám web → adresa, Web zatím nemám → profil na Googlu či Facebooku) a obor.
+   2. Kam vám ukázku poslat? (jméno, telefon, nepovinně e-mail a poznámka).
+   Bez JS je to obyčejný formulář se vším pod sebou, který se odešle rovnou na Formspree.
+   S JS: kontrola polí s hláškou přímo u pole, odeslání přes fetch bez opuštění stránky
+   a místo formuláře poděkování. Když odeslání selže, údaje zůstanou a ukáže se telefon
+   a WhatsApp. Hlášky a odeslání stejné jako u kalkulačky (poptavka.js). */
 (() => {
   'use strict';
 
@@ -14,22 +15,31 @@
   // prohlížeč bez fetch a FormData: zůstane obyčejný formulář, který se odešle sám
   if (!form || !window.fetch || !window.FormData) return;
 
-  const $ = (sel) => form.querySelector(sel);
+  const $ = (sel, root = form) => root.querySelector(sel);
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const steps = [...form.querySelectorAll('[data-krok]')];
+  const prog = $('[data-ask-prog]');
+  const krokText = $('[data-ask-krok]');
+  const zbyva = $('[data-ask-zbyva]');
+  const bar = $('[data-ask-bar]');
+  const chips = $('[data-ask-chips]');
   const done = document.querySelector('[data-ask-done]');
   const send = $('[data-ask-send]');
   const sendLabel = $('[data-ask-send-label]');
+  const back = $('[data-ask-back]');
+  const privacy = $('[data-ask-privacy]');
   const status = $('[data-ask-status]');
-  const noWeb = $('[data-ask-noweb]');
-  const web = $('[data-ask-web]');
-  const profilField = $('[data-ask-profil]');
-  const profil = profilField.querySelector('input');
+  const web = $('#web-url');
+  const profil = $('#profil-url');
+  const obor = $('#obor');
   const LABEL = sendLabel.textContent;
+  let at = 0;
   let sending = false;
 
   /* ---------- Pomocníci ---------- */
-  const el = (tag, text) => {
+  const el = (tag, text, cls) => {
     const e = document.createElement(tag);
+    if (cls) e.className = cls;
     if (text != null) e.textContent = text;
     return e;
   };
@@ -56,33 +66,38 @@
   };
   // adresa webu: aspoň „neco.cz“, bez mezer (stačí bez https:// i bez www)
   const looksLikeUrl = (v) => /^\S+\.\S+$/.test(v.trim());
+  const maWeb = () => $('[data-ask-volba]:checked').dataset.askVolba === 'ano';
 
-  /* ---------- Web zatím nemám: místo adresy webu odkaz na profil ---------- */
-  // Vypnuté pole se neodešle, takže do žádosti jde vždy jen to, co platí.
+  /* ---------- Mám web / Web zatím nemám ---------- */
+  // Skryté pole je vypnuté, takže se neodešle: do žádosti jde vždy jen to, co platí.
   const toggle = () => {
-    const none = noWeb.checked;
-    web.disabled = none;
-    profil.disabled = !none;
-    profilField.hidden = !none;
-    fieldError(none ? web : profil, '');
+    const ano = maWeb();
+    form.querySelectorAll('[data-ask-pole]').forEach((f) => {
+      const vidim = (f.dataset.askPole === 'ano') === ano;
+      f.hidden = !vidim;
+      $('input', f).disabled = !vidim;
+    });
+    fieldError(ano ? profil : web, '');
   };
-  noWeb.addEventListener('change', toggle);
+  form.addEventListener('change', (e) => { if (e.target.matches('[data-ask-volba]')) toggle(); });
+  // bez JS je u profilu „když web nemáte“, s JS se pole ukáže jen tehdy, takže je povinné
+  $('[data-ask-profil-pozn]').textContent = 'povinné';
 
-  /* ---------- Kontrola polí ---------- */
+  /* ---------- Kontrola polí po krocích ---------- */
   const rules = [
-    [web, (v) => (noWeb.checked ? ''
-      : !v.trim() ? 'Napište prosím adresu svého webu, nebo zaškrtněte, že web zatím nemáte.'
+    [[web, (v) => (!maWeb() ? ''
+      : !v.trim() ? 'Napište prosím adresu svého webu, nebo vyberte, že web zatím nemáte.'
         : !looksLikeUrl(v) ? 'Adresa vypadá neúplně, zkontrolujte ji prosím. Stačí třeba mojefirma.cz.' : '')],
-    [profil, (v) => (!noWeb.checked || v.trim() ? '' : 'Pošlete prosím odkaz na profil, ať mám z čeho ukázku připravit.')],
-    [$('#obor'), (v) => (v.trim() ? '' : 'Napište prosím, čím se zabýváte.')],
-    [$('#jmeno'), (v) => (v.trim() ? '' : 'Napište prosím své jméno.')],
-    [$('#telefon'), (v) => (!v.trim() ? 'Napište prosím telefon, ať se vám můžu ozvat.'
-      : v.replace(/\D/g, '').length < 9 ? 'Telefon vypadá neúplně, zkontrolujte ho prosím.' : '')],
-    [$('#email'), (v, input) => (v.trim() && !input.validity.valid ? 'E-mail vypadá neúplně, zkontrolujte ho prosím.' : '')],
+     [profil, (v) => (maWeb() || v.trim() ? '' : 'Pošlete prosím odkaz na profil, ať mám z čeho ukázku připravit.')],
+     [obor, (v) => (v.trim() ? '' : 'Napište prosím, čím se zabýváte.')]],
+    [[$('#jmeno'), (v) => (v.trim() ? '' : 'Napište prosím své jméno.')],
+     [$('#telefon'), (v) => (!v.trim() ? 'Napište prosím telefon, ať se vám můžu ozvat.'
+       : v.replace(/\D/g, '').length < 9 ? 'Telefon vypadá neúplně, zkontrolujte ho prosím.' : '')],
+     [$('#email'), (v, input) => (v.trim() && !input.validity.valid ? 'E-mail vypadá neúplně, zkontrolujte ho prosím.' : '')]],
   ];
-  const check = () => {
+  const check = (krok) => {
     let first = null;
-    rules.forEach(([input, test]) => {
+    rules[krok].forEach(([input, test]) => {
       const msg = test(input.value, input);
       fieldError(input, msg);
       if (msg && !first) first = input;
@@ -91,9 +106,60 @@
     return !first;
   };
   // opravené pole hned přestane hlásit chybu
-  rules.forEach(([input, test]) => input.addEventListener('input', () => {
+  rules.flat().forEach(([input, test]) => input.addEventListener('input', () => {
     if (input.getAttribute('aria-invalid') === 'true' && !test(input.value, input)) fieldError(input, '');
   }));
+
+  /* ---------- Kroky ---------- */
+  // když začátek karty není vidět (nebo je hluboko dole), dojet k němu
+  const bringIntoView = (anchor) => {
+    const top = anchor.getBoundingClientRect().top;
+    if (top < 0 || top > innerHeight * 0.4) anchor.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
+  };
+  const chip = (text) => {
+    const li = el('li');
+    const b = el('button', null, 'pf__chip');
+    b.type = 'button';
+    b.setAttribute('aria-label', `Změnit: ${text}`);
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+    b.append(text);
+    b.addEventListener('click', () => show(0));
+    li.append(b);
+    return li;
+  };
+
+  function show(i, { focus = true, push = true } = {}) {
+    at = i;
+    const last = at === steps.length - 1;
+    steps.forEach((s, j) => { s.hidden = j !== at; });
+    krokText.textContent = `Krok ${at + 1} ze ${steps.length}`;
+    zbyva.textContent = last ? 'Poslední krok' : 'Zbývá 1 krok';
+    [...bar.children].forEach((seg, j) => { seg.className = j < at ? 'is-done' : j === at ? 'is-now' : ''; });
+    // hotové odpovědi z prvního kroku jako štítky (klepnutím zpět)
+    if (last) {
+      const w = maWeb() ? web.value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '') : 'Web zatím nemám';
+      chips.replaceChildren(chip(w), chip(obor.value.trim()));
+    } else {
+      chips.replaceChildren();
+    }
+    chips.hidden = !last;
+    back.hidden = !at;
+    sendLabel.textContent = last ? LABEL : 'Pokračovat';
+    privacy.hidden = !last;
+    status.replaceChildren();
+    if (push && last) history.pushState({ ask: 2 }, '');
+    if (focus) {
+      $('.q__title', steps[at]).focus({ preventScroll: true });
+      bringIntoView(prog);
+    }
+  }
+
+  // Zpět: přes historii prohlížeče, aby systémové „zpět“ na mobilu fungovalo stejně
+  back.addEventListener('click', () => {
+    if (history.state && history.state.ask === 2) history.back();
+    else show(0, { push: false });
+  });
+  addEventListener('popstate', () => { if (!form.hidden && at) show(0, { push: false }); });
 
   /* ---------- Odeslání ---------- */
   const failure = () => {
@@ -105,20 +171,23 @@
   const success = () => {
     form.hidden = true;
     done.hidden = false;
-    // nadpis „Pošlete odkaz.“ už neplatí: poděkování stojí samo jako v kalkulačce
-    const heading = document.querySelector('[data-ask-title]');
-    if (heading) heading.hidden = true;
-    const title = done.querySelector('[tabindex="-1"]');
+    const title = $('[tabindex="-1"]', done);
     title.focus({ preventScroll: true });
-    const top = title.getBoundingClientRect().top;
-    if (top < 0 || top > innerHeight * 0.6) title.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+    bringIntoView(done);
     // měření jen se souhlasem: gtag existuje, až když ho main.js po souhlasu načte
     if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead', { lead_type: 'ukazka' });
   };
 
+  // Enter v poli i tlačítko jdou přes submit: v prvním kroku jen dál
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (sending || !check()) return;
+    if (sending) return;
+    if (at === 0) {
+      if (check(0)) show(1);
+      return;
+    }
+    if (!check(0)) { show(0, { push: false }); check(0); return; }
+    if (!check(1)) return;
     const data = new FormData(form);
 
     sending = true;
@@ -143,6 +212,9 @@
 
   /* ---------- Start ---------- */
   form.noValidate = true;     // kontrolu dělá skript, s vlastními hláškami
-  form.classList.add('ask--js');
-  toggle();                   // i po návratu na stránku, kdy prohlížeč obnoví zaškrtnutí
+  form.classList.add('calc--steps');
+  prog.hidden = false;
+  steps.forEach((s) => $('.q__title', s).setAttribute('aria-describedby', 'ask-progress'));
+  toggle();                   // i po návratu na stránku, kdy prohlížeč obnoví volbu
+  show(0, { focus: false, push: false });
 })();

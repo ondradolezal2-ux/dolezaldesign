@@ -18,11 +18,11 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23111'/%3E%3Cpath transform='translate(4.4 3.2) scale(.78)' fill='%23fff' fill-rule='evenodd' d='M6 4h13a15 15 0 0 1 0 30h-6.5L6 39ZM12.4 19a2.1 2.1 0 1 0 4.2 0a2.1 2.1 0 1 0-4.2 0ZM18.4 19a2.1 2.1 0 1 0 4.2 0a2.1 2.1 0 1 0-4.2 0ZM24.4 19a2.1 2.1 0 1 0 4.2 0a2.1 2.1 0 1 0-4.2 0Z'/%3E%3C/svg%3E">
 
   <link rel="preload" href="../assets/fonts/Manrope-Variable-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../assets/css/tokens.css?v=202610142002">
-  <link rel="stylesheet" href="../assets/css/main.css?v=202610142002">
+  <link rel="stylesheet" href="../assets/css/tokens.css?v=202610142014">
+  <link rel="stylesheet" href="../assets/css/main.css?v=202610142014">
   <script>document.documentElement.classList.add('js')</script>
-  <script src="../assets/js/main.js?v=202610142002" defer></script>
-  <script src="../assets/js/ukazka.js?v=202610142002" defer></script>
+  <script src="../assets/js/main.js?v=202610142014" defer></script>
+  <script src="../assets/js/ukazka.js?v=202610142014" defer></script>
 
   <script type="application/ld+json">
 {
@@ -68,100 +68,97 @@
   </header>
 
   <main id="obsah">
-    <section class="head head--ask" aria-labelledby="page-title">
+    <section class="head head--noc head--form" aria-labelledby="page-title">
       <div class="wrap grid">
-        <p class="label label--side">Ukázka zdarma</p>
-        <div class="content head__main">
+        <div class="content content--full head__main">
           <h1 class="head__title" id="page-title">Ukážu vám váš nový web. <i>Zdarma a&nbsp;nezávazně.</i></h1>
           <p class="head__lead">Pošlete odkaz na svůj web a&nbsp;z&nbsp;vašich textů a&nbsp;fotek vám připravím ukázku nové úvodní stránky.</p>
         </div>
       </div>
     </section>
 
-    <section class="sec ask-how" aria-labelledby="how-title">
-      <div class="wrap grid">
-        <p class="label label--side">Postup</p>
-        <div class="content">
-          <h2 class="h2 h2--minor" id="how-title" data-reveal>Jak to funguje.</h2>
-          <ol class="steps steps--three" data-reveal>
-            <li><span class="n" aria-hidden="true">1</span><h3>Pošlete odkaz</h3><p>Na svůj web. Když web nemáte, stačí profil na Googlu nebo Facebooku.</p></li>
-            <li><span class="n" aria-hidden="true">2</span><h3>Připravím ukázku</h3><p>Z&nbsp;vašich textů a&nbsp;fotek udělám novou úvodní stránku. <em>Nic&nbsp;si&nbsp;nevymýšlím.</em></p></li>
-            <li><span class="n" aria-hidden="true">3</span><h3>Podíváte se</h3><p>Pošlu vám odkaz a&nbsp;podíváte se na mobilu. Když se líbí, domluvíme cenu a&nbsp;termín. Když ne, <em>ukázku&nbsp;smažu</em>.</p></li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec ask-sec" id="zadost" aria-labelledby="ask-title">
-      <div class="wrap grid grid--aside">
-        <p class="label label--side">Žádost</p>
-        <div class="content">
-          <h2 class="h2 h2--minor" id="ask-title" data-ask-title>Pošlete odkaz. <i>Ukázku připravím já.</i></h2>
-
-          <form class="ask" action="https://formspree.io/f/mjykqzbb" method="POST" aria-labelledby="ask-title" data-ask>
+    <section class="sheet sheet--sky sheet--break pf" id="zadost" aria-label="Žádost o ukázku">
+      <div class="wrap pf__layout">
+        <div class="pf__card">
+          <form class="calc ask" action="https://formspree.io/f/mjykqzbb" method="POST" aria-label="Žádost o ukázku webu" data-ask>
             <input type="hidden" name="_subject" value="Žádost o ukázku webu z dolezaldesign.cz">
 
             <div hidden>
               <label>Nevyplňujte <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
             </div>
 
-            <fieldset class="calc__who ask__group">
-              <legend><span class="calc__who-title">Váš web</span></legend>
-              <div class="field ask__web">
-                <label class="field__label" for="web-url">Adresa vašeho webu</label>
-                <input class="field__input" id="web-url" type="text" name="web_url" maxlength="200" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="např. mojefirma.cz" data-ask-web>
+            <div class="pf__prog" hidden data-ask-prog>
+              <p class="pf__prog-row"><span id="ask-progress" data-ask-krok>Krok 1 ze 2</span><span data-ask-zbyva>Zbývá 1 krok</span></p>
+              <div class="pf__bar" aria-hidden="true" data-ask-bar><i class="is-now"></i><i></i></div>
+              <ul class="pf__chips" aria-label="Hotové odpovědi" hidden data-ask-chips></ul>
+            </div>
+
+            <fieldset class="q" data-krok="1">
+              <legend><h2 class="q__title" tabindex="-1">Máte teď web?</h2></legend>
+              <p class="q__hint">Ukázku připravím z&nbsp;vašich textů a&nbsp;fotek, nic si nevymýšlím.</p>
+              <div class="opts opts--2">
+                <label class="opt">
+                  <input type="radio" name="ma_web" value="Ano" checked data-ask-volba="ano">
+                  <span class="opt__name">Mám web</span><span class="opt__desc">pošlete jeho adresu</span>
+                </label>
+                <label class="opt">
+                  <input type="radio" name="ma_web" value="Ne, posílám profil" data-ask-volba="ne">
+                  <span class="opt__name">Web zatím nemám</span><span class="opt__desc">stačí profil na Googlu nebo Facebooku</span>
+                </label>
+              </div>
+              <div class="field" data-ask-pole="ano">
+                <label class="field__label" for="web-url">Adresa vašeho webu <small>povinné</small></label>
+                <input class="field__input" id="web-url" type="text" name="web_url" maxlength="200" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="např. mojefirma.cz">
                 <p class="field__error" id="web-url-chyba" hidden></p>
               </div>
-              <label class="check">
-                <input type="checkbox" id="nemam-web" name="nemam_web" value="Ano" aria-controls="profil-pole" data-ask-noweb>
-                <span>Web zatím nemám</span>
-              </label>
-              <div class="field" id="profil-pole" data-ask-profil>
-                <label class="field__label" for="profil-url">Odkaz na profil na Googlu nebo Facebooku</label>
+              <div class="field" data-ask-pole="ne">
+                <label class="field__label" for="profil-url">Odkaz na profil na Googlu nebo Facebooku <small data-ask-profil-pozn>když web nemáte</small></label>
                 <input class="field__input" id="profil-url" type="text" name="profil_url" maxlength="300" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="např. facebook.com/mojefirma">
                 <p class="field__error" id="profil-url-chyba" hidden></p>
                 <p class="field__hint">Nemáte ani profil? Zavolejte mi na <a href="tel:+420773715894">773&nbsp;715&nbsp;894</a>.</p>
               </div>
               <div class="field">
-                <label class="field__label" for="obor">Čím se zabýváte</label>
+                <label class="field__label" for="obor">Čím se zabýváte <small>povinné</small></label>
                 <input class="field__input" id="obor" type="text" name="obor" required maxlength="200" autocomplete="off" placeholder="např. pokrývač, Hradec Králové">
                 <p class="field__error" id="obor-chyba" hidden></p>
               </div>
             </fieldset>
 
-            <fieldset class="calc__who ask__group">
-              <legend><span class="calc__who-title">Kam vám ukázku poslat?</span></legend>
+            <fieldset class="q" data-krok="2">
+              <legend><h2 class="q__title" tabindex="-1">Kam vám ukázku poslat?</h2></legend>
+              <p class="q__hint">Pošlu vám odkaz a&nbsp;podíváte se na mobilu.</p>
               <div class="calc__fields">
                 <div class="field">
-                  <label class="field__label" for="jmeno">Jméno</label>
+                  <label class="field__label" for="jmeno">Jméno <small>povinné</small></label>
                   <input class="field__input" id="jmeno" type="text" name="jmeno" required autocomplete="name" maxlength="120">
                   <p class="field__error" id="jmeno-chyba" hidden></p>
                 </div>
                 <div class="field">
-                  <label class="field__label" for="telefon">Telefon</label>
+                  <label class="field__label" for="telefon">Telefon <small>povinné</small></label>
                   <input class="field__input" id="telefon" type="tel" name="telefon" required autocomplete="tel" inputmode="tel" maxlength="40">
                   <p class="field__error" id="telefon-chyba" hidden></p>
                 </div>
                 <div class="field">
-                  <label class="field__label" for="email">E&#8209;mail <small>(nepovinné)</small></label>
+                  <label class="field__label" for="email">E&#8209;mail <small>nepovinné</small></label>
                   <input class="field__input" id="email" type="email" name="email" autocomplete="email" maxlength="160" autocapitalize="off" spellcheck="false">
                   <p class="field__error" id="email-chyba" hidden></p>
                 </div>
-                <div class="field field--wide">
-                  <label class="field__label" for="poznamka">Poznámka <small>(nepovinné)</small></label>
+                <div class="field">
+                  <label class="field__label" for="poznamka">Poznámka <small>nepovinné</small></label>
                   <textarea class="field__input" id="poznamka" name="poznamka" rows="3" maxlength="2000" placeholder="Co vám na současném webu chybí, co má nový umět…"></textarea>
                 </div>
               </div>
             </fieldset>
 
-            <div class="ask__send">
+            <div class="calc__nav">
+              <button class="calc__back" type="button" hidden data-ask-back>Zpět</button>
               <button class="btn" type="submit" data-ask-send><span data-ask-send-label>Poslat žádost o&nbsp;ukázku</span></button>
             </div>
-            <p class="calc__privacy">Údaje použiju jen k&nbsp;přípravě ukázky a&nbsp;odpovědi. Víc v&nbsp;<a href="../ochrana-osobnich-udaju/">ochraně osobních údajů</a>.</p>
+            <p class="calc__privacy" data-ask-privacy>Údaje použiju jen k&nbsp;přípravě ukázky a&nbsp;odpovědi. Víc v&nbsp;<a href="../ochrana-osobnich-udaju/">ochraně osobních údajů</a>.</p>
             <div class="calc__status" role="status" data-ask-status></div>
           </form>
 
-          <div class="ask__done" hidden data-ask-done>
+          <div class="calc__done" hidden data-ask-done>
             <h2 class="q__title" tabindex="-1">Díky, žádost dorazila.</h2>
             <p class="calc__done-text">Ukázku připravím a&nbsp;pošlu vám ji. Ozvu se vám na telefon nebo e&#8209;mail.</p>
             <p class="calc__done-more">Kdybyste chtěli něco doplnit, zavolejte nebo napište na WhatsApp: <a href="tel:+420773715894">773&nbsp;715&nbsp;894</a>.</p>
@@ -169,17 +166,22 @@
           </div>
         </div>
 
-        <div class="ask-terms">
-          <h3 class="ask-terms__title">Co máte jisté</h3>
-          <ul class="ask-terms__list">
-            <li><strong>Zdarma a&nbsp;nezávazně.</strong> Za ukázku nic neplatíte a&nbsp;k&nbsp;ničemu vás nezavazuje.</li>
-            <li><strong>Jen váš obsah.</strong> Texty a&nbsp;fotky beru z&nbsp;vašeho současného webu nebo profilu.</li>
-            <li><strong>Ukázka není veřejná.</strong> Když nebudete chtít pokračovat, do 30&nbsp;dní ji smažu.</li>
-            <li><strong>Když se vám líbí,</strong> domluvíme cenu a&nbsp;termín. Web je hotový do 14&nbsp;dní od dodání podkladů.</li>
+        <aside class="pf__sum ask-side" aria-labelledby="jak-title">
+          <h2 class="pf__sum-title" id="jak-title">Jak to funguje</h2>
+          <ol class="ask-kroky">
+            <li><span class="n" aria-hidden="true">1</span><span><b>Pošlete odkaz</b>Na svůj web. Když web nemáte, stačí profil na Googlu nebo Facebooku.</span></li>
+            <li><span class="n" aria-hidden="true">2</span><span><b>Připravím ukázku</b>Z&nbsp;vašich textů a&nbsp;fotek udělám novou úvodní stránku. Nic si nevymýšlím.</span></li>
+            <li><span class="n" aria-hidden="true">3</span><span><b>Podíváte se</b>Pošlu vám odkaz a&nbsp;podíváte se na mobilu. Když se líbí, domluvíme cenu a&nbsp;termín. Když ne, ukázku smažu.</span></li>
+          </ol>
+          <h3>Co máte jisté</h3>
+          <ul class="pf__terms">
+            <li><b>Zdarma a&nbsp;nezávazně.</b> Za ukázku nic neplatíte a&nbsp;k&nbsp;ničemu vás nezavazuje.</li>
+            <li><b>Jen váš obsah.</b> Texty a&nbsp;fotky beru z&nbsp;vašeho současného webu nebo profilu.</li>
+            <li><b>Ukázka není veřejná.</b> Když nebudete chtít pokračovat, do 30&nbsp;dní ji smažu.</li>
+            <li><b>Když se vám líbí,</b> domluvíme cenu a&nbsp;termín. Web je hotový do 14&nbsp;dní od dodání podkladů.</li>
           </ul>
-        </div>
-
-        <p class="ask-alt">Chcete radši rovnou cenu? <a class="link" href="../poptavka/">Spočítat cenu webu</a></p>
+          <p class="pf__alt">Chcete radši rovnou cenu? <a href="../poptavka/">Spočítat cenu webu</a></p>
+        </aside>
       </div>
     </section>
   </main>
